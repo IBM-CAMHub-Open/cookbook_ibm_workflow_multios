@@ -1,0 +1,120 @@
+# =================================================================
+# Copyright 2018 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# =================================================================
+
+#
+# Cookbook Name::workflow
+# Recipe::attributes
+#
+# <> The attributes file will define all attributes that may be over-written by CHEF Attribute Precendence
+# <> The attribues defined in this file, will be used internally
+#
+
+#
+# <> Attributes defined for Business Automation Workflow installation
+#
+
+# temp folder, which used to store some tmp files
+default['ibm']['temp_dir'] = '/tmp/ibm_cloud'
+
+# if archives are secured, need provide, hide them by now
+# TODO: keep them internally, expose them out later if needed.
+default['ibm']['sw_repo_user'] = 'repouser'
+default['ibm']['sw_repo_password'] = ''
+
+
+# The prerequistes packages, which need be installed ahead of time
+force_default['workflow']['prereq_packages'] = []
+case node['platform_family']
+when 'debian'
+  case node['kernel']['machine']
+  when 'x86_64'
+  	# for db2, was and workflow
+  	# keep it as-is currently, theoretically, no risk to allow editing if indeed need. If don't expose it out, not sure if we already covered enough.
+    force_default['workflow']['prereq_packages'] = %w(libxtst6 libgtk2.0-bin libxft2 cpp gcc ksh openssh-server rpm unzip binutils libaio1 libnuma1 libpam0g:i386 libx32stdc++6)
+  end
+end
+
+# Expand directory, unzip the archive files here
+force_default['ibm']['expand_area'] = node['ibm']['temp_dir'] + '/expand_area'
+
+# Workflow Edition
+force_default['workflow']['edition'] = ''
+case node['workflow']['features']
+  when 'WorkflowEnterprise.Production', 'WorkflowEnterprise.NonProduction'
+    force_default['workflow']['edition'] = 'Enterprise'
+  when 'EnterpriseServiceBus.Production', 'EnterpriseServiceBus.NonProduction'
+    force_default['workflow']['edition'] = 'ESB'
+  when 'WorkflowExpress.Production', 'WorkflowExpress.NonProduction'
+    force_default['workflow']['edition'] = 'Exp'
+end
+
+# Constants, used to download & extract installation images, archives list, base on os, workflow version
+# TODO: if support other OS later, need case it to replace the 'linux.x86' from following archive names
+force_override['workflow']['archive_names'] = {
+  'was' => {
+    'filename' => "workflowAll.dvd.#{node['workflow']['version']}.linux.x86.disk1.tar.gz" },
+  'workflow' => {
+    'filename' => "workflow#{node['workflow']['edition']}.dvd.#{node['workflow']['version']}.linux.x86.disk2.tar.gz" },
+  'db2' => {
+    'filename' => "workflowAll.dvd.#{node['workflow']['version']}.linux.x86.disk3.tar.gz" }
+}
+
+# The runas user/group while doing 'execute'
+# For admin mode, will use root/root as user and group name, same rule as was
+case node['workflow']['install_mode']
+  when 'admin'
+    force_default['workflow']['runas_user'] = 'root'
+    force_default['workflow']['runas_group'] = 'root'
+  else
+    force_default['workflow']['runas_user'] = node['workflow']['os_users']['workflow']['name']
+    force_default['workflow']['runas_group'] = node['workflow']['os_users']['workflow']['gid']
+end
+
+# IM installation directory
+force_default['workflow']['im_install_dir'] = ''
+case node['workflow']['install_mode']
+when 'admin'
+  force_default['workflow']['im_install_dir'] = '/opt/IBM/InstallationManager'
+when 'nonAdmin'
+  force_default['workflow']['im_install_dir'] = '/home/' + node['workflow']['os_users']['workflow']['name'] + '/IBM/InstallationManager'
+when 'group'
+  force_default['workflow']['im_install_dir'] = '/home/' + node['workflow']['os_users']['workflow']['name'] + '/IBM/InstallationManager_Group'
+end
+
+#
+# <> Attributes defined for Business Automation Workflow configuration
+#
+
+# The name of the SharedDb database.
+force_default['workflow']['config']['db2_shareddb_name'] = node['workflow']['config']['db2_cmndb_name']
+# The name of the CellOnlyDb database.
+force_default['workflow']['config']['db2_cellonlydb_name'] = node['workflow']['config']['db2_cmndb_name']
+
+# For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, 
+# see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" 
+# in the IBM Knowledge Center: http://www-01.ibm.com/support/knowledgecenter/SSFPJS/welcome
+force_default['workflow']['config']['db2_schema'] = node['workflow']['config']['db_alias_user']
+
+# The database data directory path.
+force_default['workflow']['config']['db2_data_dir'] = '/home/' + node['workflow']['config']['db_alias_user'] + '/' + node['workflow']['config']['db_alias_user'] + '/NODE0000'
+
+#
+# <> Attributes defined for chef-vault
+#
+
+# TODO: enhance later to support
+default['workflow']['vault']['name'] = node['ibm_internal']['vault']['name']
+default['workflow']['vault']['encrypted_id'] = node['ibm_internal']['vault']['item']

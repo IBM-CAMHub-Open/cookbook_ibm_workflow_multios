@@ -1,0 +1,54 @@
+{
+  "name": "workflow_v18_0_201806_create_singlecluster",
+  "description": "Setup IBM Business Automation Workflow 18.0 2018.06 SingleCluster",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "workflow": {
+      "os_users": {
+        "workflow": {
+          "name": "wfuser01",
+          "gid": "wfgroup"
+        }
+      },
+      "install_dir": "/home/wfuser01/IBM/Workflow",
+      "config": {
+        "product_type": "Advanced",
+        "deployment_type": "PS",
+        "cluster_type": "SingleCluster",
+        "deadmin_alias_user": "deadmin",
+        "deadmin_alias_password": "",
+        "celladmin_alias_user": "admin",
+        "celladmin_alias_password": "",
+        "dmgr_hostname": "",
+        "db2_hostname": "",
+        "node_hostname": "",
+        "db2_port": "50000",
+        "db_alias_user": "db2inst1",
+        "db_alias_password": "",
+        "db2_cmndb_name": "CMNDB",
+        "db2_bpmdb_name": "BPMDB",
+        "db2_pdwdb_name": "PDWDB",
+        "db2_cpedb_name": "CPEDB",
+        "ps_environment_purpose": "Production",
+        "ps_offline": "false",
+        "ps_pc_transport_protocol": "https",
+        "ps_pc_hostname": "",
+        "ps_pc_port": "9443",
+        "ps_pc_contextroot_prefix": "",
+        "ps_pc_alias_user": "admin",
+        "ps_pc_alias_password": ""
+      }
+    }
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[workflow::createde]"
+  ],
+  "env_run_lists": {
+
+  }
+}
+

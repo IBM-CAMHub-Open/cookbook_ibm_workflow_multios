@@ -32,14 +32,14 @@
 #<%= @OSUSER %> hard fsize 6291453
 
 # - stack - maximum stack size (KB)
-root soft stack 32768
-root hard stack 32768
+<%= @OSADMINUSER %> soft stack 32768
+<%= @OSADMINUSER %> hard stack 32768
 # - nofile - maximum number of open files
-root soft nofile 65536
-root hard nofile 65536
+<%= @OSADMINUSER %> soft nofile 65536
+<%= @OSADMINUSER %> hard nofile 65536
 # - nproc - maximum number of processes
-#root soft nproc 16384
-#root hard nproc 16384
+#<%= @OSADMINUSER %> soft nproc 16384
+#<%= @OSADMINUSER %> hard nproc 16384
 # - fsize - maximum file size
-#root soft fsize 6291453
-#root hard fsize 6291453
+#<%= @OSADMINUSER %> soft fsize 6291453
+#<%= @OSADMINUSER %> hard fsize 6291453

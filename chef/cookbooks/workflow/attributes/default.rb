@@ -37,8 +37,11 @@ default['ibm']['ifix_repo'] = ''
 # log directory - all log files generated during installation & configuration
 default['ibm']['log_dir'] = '/var/log/ibm_cloud'
 
+# os admin user
+default['os_admin']['user'] = ''
+
 #default['workflow']['install_mode'] = 'group'
-default['workflow']['install_mode'] = 'admin'
+default['workflow']['install_mode'] = 'nonAdmin'
 
 default['workflow']['os_users'] = {
   'workflow'  =>  {
@@ -59,7 +62,7 @@ default['workflow']['features'] = 'WorkflowEnterprise.Production' # 'WorkflowEnt
 # 'EnterpriseServiceBus.Production', 'EnterpriseServiceBus.NonProduction', 'WorkflowExpress.Production' or 'WorkflowExpress.NonProduction'
 # currently, use different template for different workflow edition, so, no need to make workflow feature customization
 
-# TODO: workflow features & workflow offering_id must keep consistent, add check later 
+# TODO: workflow features & workflow offering_id must keep consistent, add check later
 # or leverage workflow offering_id to determine workflow features
 default['workflow']['offering_id'] = ''
 default['workflow']['offering_version'] = ''
@@ -102,7 +105,7 @@ default['workflow']['config']['cluster_type'] = 'SingleCluster'
 # Deployment environment administrator authentication alias.
 default['workflow']['config']['deadmin_alias_user'] = 'deadmin'
 default['workflow']['config']['deadmin_alias_password'] = ''
-# Cell (WAS) administration authentication alias 
+# Cell (WAS) administration authentication alias
 default['workflow']['config']['celladmin_alias_user'] = 'admin'
 default['workflow']['config']['celladmin_alias_password'] = ''
 # The host name of the deployment manager. Do not use localhost for environments that span multiple hosts.
@@ -110,11 +113,13 @@ default['workflow']['config']['dmgr_hostname'] = ''
 # If the host name is the same as the deployment manager, this node will be created on the same computer. Do not use localhost for environments that span multiple hosts.
 default['workflow']['config']['node_hostname'] = ''
 
+# same as default['db2']['install'] above
+default['workflow']['config']['db2_install'] = 'true'
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
 default['workflow']['config']['db2_hostname'] = ''
 # The port of the DB2 database
 default['workflow']['config']['db2_port'] = '50000'
-# Database user authentication alias 
+# Database user authentication alias
 default['workflow']['config']['db_alias_user'] = 'db2inst1'
 # Database user authentication alias password
 default['workflow']['config']['db_alias_password'] = ''
@@ -126,6 +131,26 @@ default['workflow']['config']['db2_bpmdb_name'] = 'BPMDB'
 default['workflow']['config']['db2_pdwdb_name'] = 'PDWDB'
 # The name of the IcnDb/DosDb/TosDb database.
 default['workflow']['config']['db2_cpedb_name'] = 'CPEDB'
+# The schema name of the IcnDb database.
+default['workflow']['config']['cpedb']['icndb']['schema'] = 'ICNSA'
+# The table space name of the IcnDb database.
+default['workflow']['config']['cpedb']['icndb']['tsicn'] = 'WFICNTS'
+# The schema name of the DosDb database.
+default['workflow']['config']['cpedb']['dosdb']['schema'] = 'DOSSA'
+# The data table space name of the DosDb database.
+default['workflow']['config']['cpedb']['dosdb']['tsdosdata'] = 'DOSSA_DATA_TS'
+# The lob table space name of the DosDb database.
+default['workflow']['config']['cpedb']['dosdb']['tsdoslob'] = 'DOSSA_LOB_TS'
+# The idx table space name of the DosDb database.
+default['workflow']['config']['cpedb']['dosdb']['tsdosidx'] = 'DOSSA_IDX_TS'
+# The schema name of the TosDb database.
+default['workflow']['config']['cpedb']['tosdb']['schema'] = 'TOSSA'
+# The data table space name of the DosDb database.
+default['workflow']['config']['cpedb']['tosdb']['tstosdata'] = 'TOSSA_DATA_TS'
+# The lob table space name of the DosDb database.
+default['workflow']['config']['cpedb']['tosdb']['tstoslob'] = 'TOSSA_LOB_TS'
+# The idx table space name of the DosDb database.
+default['workflow']['config']['cpedb']['tosdb']['tstosidx'] = 'TOSSA_IDX_TS'
 
 # (<> PS only <>) The purpose of this Process Server environment: Development, Test, Staging, or Production.
 default['workflow']['config']['ps_environment_purpose'] = 'Development'

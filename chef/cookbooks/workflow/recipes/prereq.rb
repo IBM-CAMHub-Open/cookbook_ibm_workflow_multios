@@ -56,13 +56,14 @@ when 'debian'
     end
   end
 
-  # TODO: if IM install by root in nonAdmin mode, what needed? 
-  #       root ulimits or the normal user's limits? 
+  # TODO: if IM install by root in nonAdmin mode, what needed?
+  #       root ulimits or the normal user's limits?
   # TODO: if IM install by non-root in nonAdmin mode, is this okay?
   template "/etc/security/limits.d/workflow-limits.conf" do
     source "workflow-limits.conf.erb"
     mode '0644'
     variables(
+      :OSADMINUSER => (node['os_admin']['user']).to_s,
       :OSUSER => (node['workflow']['os_users']['workflow']['name']).to_s
     )
   end

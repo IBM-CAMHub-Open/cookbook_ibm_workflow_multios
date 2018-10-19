@@ -15,104 +15,156 @@
 # =================================================================
 
 #
-# Cookbook Name:: workflow 
+# Cookbook Name:: workflow
 # Provider:: workflow_createde
 
-actions :prepare, :create, :start
-default_action :create
+actions :check_attrs, :prepare, :create, :restore_isc, :config_ihs, :start_dmgr, :create_case_group, :case_tune, :start_nodeagent, :start_server, :setup_case, :restore_case_tune, :stop_nodeagent, :stop_server, :ps_online_setup
+default_action :prepare
 
 # <> The installation root directory for the Business Automation Workflow.
-attribute :install_dir, :kind_of => String, :default => nil
+property :install_dir, String, required: true
 
 # <> The type of product configuration: Express, Standard, Advanced, or AdvancedOnly.
-attribute :product_type, :kind_of => String, :default => nil
+property :product_type, String, required: true
 
 # <> The type of deployment environment: PC or PS. Use 'PC' to create a Workflow Center deployment environment and 'PS' to create a Workflow Server deployment environment.
-attribute :deployment_type, :kind_of => String, :default => nil
+property :deployment_type, String
 
-# <> The type of cluster: SingleCluster or ThreeClusters(support later).
-attribute :cluster_type, :kind_of => String, :default => nil
+# <> The type of cluster: SingleCluster, SingleClusters or ThreeClusters(support later).
+property :cluster_type, String, required: true
+
+# <> The workflow runas user
+property :workflow_runas_user, String, required: true
+
+# <> The workflow runas group
+property :workflow_runas_group, String, required: true
 
 # <> The user name of the DE administrator.
-attribute :deadmin_alias_user, :kind_of => String, :default => nil
+property :deadmin_alias_user, String, required: true
 
 # <> The password of the DE administrator.
-attribute :deadmin_alias_password, :kind_of => String, :default => nil
+property :deadmin_alias_password, String, required: true
 
 # <> The user name of the cell administrator.
-attribute :celladmin_alias_user, :kind_of => String, :default => nil
+property :celladmin_alias_user, String, required: true
 
 # <> The password of the cell administrator.
-attribute :celladmin_alias_password, :kind_of => String, :default => nil
+property :celladmin_alias_password, String, required: true
 
 # <> The fully qualified domain name of the deployment manager to federate this node to.
-attribute :dmgr_hostname, :kind_of => String, :default => nil
+property :dmgr_hostname, String, required: true
 
-# <> The fully qualified domain name of this node.
-attribute :node_hostname, :kind_of => String, :default => nil
+# <> The fully qualified domain names of all node, format like "node01_hostname, node02_hostname, node03_hostname"
+property :node_hostnames, String
 
+# <> The ip and fully qualified domain names mappings for all VMs under same environment
+property :ip_hostname_pairs, Hash
+
+# <> The fully qualified host name of IHS.
+property :ihs_hostname, String
+
+# <> The https port number of the IHS.
+property :ihs_https_port, String
+
+# <> The case management network shared directory for multiple nodes
+property :case_network_shared_dir, String
+
+# <> The local mount point for case management network shared directory
+property :local_case_network_shared_dir, String
+
+# <> Whether to install DB2 locally
+property :db2_install, String
+
+# TODO: renaming following properties to enable other databases support
 # <> The fully qualified domain name of DB2 database.
-attribute :db2_hostname, :kind_of => String, :default => nil
+property :db2_hostname, String
 
 # <> The port number of the DB2 database.
-attribute :db2_port, :kind_of => String, :default => nil
+property :db2_port, String
 
 # <> The username of the DB2 database which will be used to create database user authentication alias.
-attribute :db_alias_user, :kind_of => String, :default => nil
+property :db_alias_user, String
 
 # <> The password of the DB2 database which will be used to create database user authentication alias.
-attribute :db_alias_password, :kind_of => String, :default => nil
+property :db_alias_password, String
 
 # <> The database name of Business Automation Workflow ProcessServerDb.
-attribute :db2_bpmdb_name, :kind_of => String, :default => nil
+property :db2_bpmdb_name, String
 
 # <> The database name of Business Automation Workflow PerformanceDb.
-attribute :db2_pdwdb_name, :kind_of => String, :default => nil
+property :db2_pdwdb_name, String
 
 # <> The database name of Business Automation Workflow CommonDB.
-attribute :db2_cmndb_name, :kind_of => String, :default => nil
+property :db2_cmndb_name, String
 
 # <> The database name of Business Automation Workflow IcnDb/DosDb/TosDb.
-attribute :db2_cpedb_name, :kind_of => String, :default => nil
+property :db2_cpedb_name, String
+
+# <> The schema name of the IcnDb database.
+property :cpedb_icndb_schema, String
+
+# <> The table space name of the IcnDb database.
+property :cpedb_icndb_tsicn, String
+
+# <> The schema name of the DosDb database.
+property :cpedb_dosdb_schema, String
+
+# <> The data table space name of the DosDb database.
+property :cpedb_dosdb_tsdosdata, String
+
+# <> The lob table space name of the DosDb database.
+property :cpedb_dosdb_tsdoslob, String
+
+# <> The idx table space name of the DosDb database.
+property :cpedb_dosdb_tsdosidx, String
+
+# <> The schema name of the TosDb database.
+property :cpedb_tosdb_schema, String
+
+# <> The data table space name of the TosDb database.
+property :cpedb_tosdb_tstosdata, String
+
+# <> The lob table space name of the TosDb database.
+property :cpedb_tosdb_tstoslob, String
+
+# <> The idx table space name of the TosDb database.
+property :cpedb_tosdb_tstosidx, String
 
 # <> The database data directory path.
-attribute :db2_data_dir, :kind_of => String, :default => nil
+property :db2_data_dir, String
 
 # <> The database name of Business Automation Workflow ShardDB.
-attribute :db2_shareddb_name, :kind_of => String, :default => nil
+property :db2_shareddb_name, String
 
 # <> The database name of Business Automation Workflow CellOnlyDB.
-attribute :db2_cellonlydb_name, :kind_of => String, :default => nil
+property :db2_cellonlydb_name, String
 
 # <> The database schema of Business Automation Workflow.
-attribute :db2_schema, :kind_of => String, :default => nil
+property :db2_schema, String
 
 # <> The purpose of this Process Server environment: Development, Test, Staging, or Production, necessary for Process Server deployment environment.
-attribute :ps_environment_purpose, :kind_of => String, :default => nil
+property :ps_environment_purpose, String
 
 # <> Options: true or false. Set to false if the Process Server is online and can be connected to the Process Center.
-attribute :ps_offline, :kind_of => String, :default => nil
+property :ps_offline, String
 
 # <> Options: http or https. The transport protocol for communicating with the Process Center environment.
-attribute :ps_pc_transport_protocol, :kind_of => String, :default => nil
+property :ps_pc_transport_protocol, String
 
 # <> The host name of the Process Center environment.
-attribute :ps_pc_hostname, :kind_of => String, :default => nil
+property :ps_pc_hostname, String
 
 # <> The port number of the Process Center environment.
-attribute :ps_pc_port, :kind_of => String, :default => nil
+property :ps_pc_port, String
 
 # <> The context root prefix of the Process Center environment. If set, the context root prefix must start with a forward slash character (/).
-attribute :ps_pc_contextroot_prefix, :kind_of => String, :default => nil
+property :ps_pc_contextroot_prefix, String
 
 # <> The user name of the Process Center authentication alias (which is used by online Process Server environments to connect to Process Center).
-attribute :ps_pc_alias_user, :kind_of => String, :default => nil
+property :ps_pc_alias_user, String
 
 # <> The password of the Process Center authentication alias (which is used by online Process Server environments to connect to Process Center).
-attribute :ps_pc_alias_password, :kind_of => String, :default => nil
-
-# <> The DE creation properties file name.
-attribute :createde_property_file, :kind_of => String, :default => nil
+property :ps_pc_alias_password, String
 
 attr_accessor :database_created
 attr_accessor :de_created

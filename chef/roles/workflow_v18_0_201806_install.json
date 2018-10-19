@@ -4,29 +4,30 @@
   "json_class": "Chef::Role",
   "default_attributes": {
     "ibm": {
-      "log_dir": "/home/wfuser01/var/log/ibm_cloud",
-      "sw_repo": "",
-      "ifix_repo": ""
+      "log_dir": "/home/workflowuser01/var/log/ibm_cloud",
+      "sw_repo": ""
+    },
+    "os_admin": {
+      "user": ""
     },
     "workflow": {
       "install_mode": "nonAdmin",
       "os_users": {
         "workflow": {
-          "name": "wfuser01",
-          "gid": "wfgroup",
+          "name": "workflowuser01",
+          "gid": "workflowgroup",
           "comment": "OS administrative user for Workflow installation",
-          "home":    "/home/wfuser01",
-          "shell":    "/bin/bash"
+          "home": "/home/workflowuser01",
+          "shell": "/bin/bash"
         }
       },
       "version": "18001",
       "im_version": "1.8.9",
       "features": "WorkflowEnterprise.Production",
-      "install_dir": "/home/wfuser01/IBM/Workflow",
+      "install_dir": "/home/workflowuser01/IBM/Workflow",
       "offering_id": "com.ibm.bpm.ADV.v85",
       "offering_version": "8.6.10018001",
-      "profile_id": "IBM WebSphere Application Server Network Deployment V8.5",
-      "ifix_names": "8.6.10018001-WS-BPMPCPD-TFPD12345.zip, 8.6.10018001-WS-BPM-TFBP11111.zip, 8.6.10018001-WS-BPM-TFJR2222.zip"
+      "profile_id": "IBM WebSphere Application Server Network Deployment V8.5"
     },
     "was": {
       "offering_id": "com.ibm.websphere.ND.v85"
@@ -59,4 +60,3 @@
 
   }
 }
-

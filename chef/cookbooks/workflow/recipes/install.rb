@@ -21,12 +21,14 @@
 # <> Installs IBM Business Automation Workflow
 #
 
-# Decrypt the encrypted data, all kinds of password are encrypted.
+# decrypt the encrypted data, all kinds of password are encrypted.
 chef_vault = node['workflow']['vault']['name']
 
 db2_password = node['db2']['password']
 db2_fenced_password = node['db2']['fenced_password']
 db2_das_password = node['db2']['das_password']
+celladmin_alias_password = node['workflow']['config']['celladmin_alias_password']
+
 unless chef_vault.empty?
   #Chef::Log.info("Before decryption: db2_password: #{db2_password}, db2_fenced_password: #{db2_fenced_password}, db2_das_password: #{db2_das_password}")
   encrypted_id = node['workflow']['vault']['encrypted_id']
@@ -34,6 +36,7 @@ unless chef_vault.empty?
   db2_password = chef_vault_item(chef_vault, encrypted_id)['db2']['password']
   db2_fenced_password = chef_vault_item(chef_vault, encrypted_id)['db2']['fenced_password']
   db2_das_password = chef_vault_item(chef_vault, encrypted_id)['db2']['das_password']
+  celladmin_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['celladmin_alias_password']
 end
 
 # TODO: try to meet the rule - all CHEF Cookbook's and Recipe's must be inherently idempotent.
@@ -128,16 +131,14 @@ if !(['WorkflowEnterprise.Production', 'WorkflowEnterprise.NonProduction', 'Ente
 end
 
 # TODO: check feature
-# TODO: check the required attributes are passed in
-# TODO: extract check to utils method
-
+# TODO: extract check to one appropriate place
 
 # Construct template name according to workflow edition and db2 install
 template_name = 'workflow' + node['workflow']['edition']
 
 if node['db2']['install'] == 'true'
   if node['workflow']['install_mode'] != 'admin'
-    # in the case, install db2 using separate template, otherwise, 
+    # in the case, install db2 using separate template, otherwise,
     # install db2 using same template as workflow/was.
     db2_template_name = 'DB2_linux_response_root_64bit.xml'
   else
@@ -159,6 +160,9 @@ Chef::Log.info("template_name:#{template_name}, db2_template_name:#{db2_template
 # Determine if https is used
 repo_nonsecureMode = 'false'
 secure_repo = 'false'
+# the secure_repo, in theory, is nothing with https/http, but by test, the basic authentication
+# is always enabled for the https request. 
+# TODO: decouple the https with secure_repo later
 if node['ibm']['sw_repo'].match(/^https:\/\//)
   repo_nonsecureMode = 'true'
   secure_repo = 'true'
@@ -170,11 +174,10 @@ Chef::Resource::User.send(:include, IM::Helper)
 # TODO: enable secure mode for private repository and add SSL support later
 workflow_install 'ibm_workflow' do
   sw_repo  node['ibm']['sw_repo']
-  ifix_repo  node['ibm']['ifix_repo']
-  ifix_names  node['workflow']['ifix_names']
+  workflow_expand_area  node['ibm']['expand_area']
   install_dir  node['workflow']['install_dir']
   response_file  template_name
-  db2_response_file db2_template_name
+  db2_response_file  db2_template_name
   offering_id  node['workflow']['offering_id']
   offering_version  node['workflow']['offering_version']
   im_version  node['workflow']['im_version']
@@ -188,6 +191,7 @@ workflow_install 'ibm_workflow' do
   user  node['workflow']['runas_user']
   group  node['workflow']['runas_group']
   secure_repo  secure_repo # if it's true, need set vault info using ['workflow']['vault'] ...
+  repo_nonsecureMode  repo_nonsecureMode
   # db2 settings
   db2_install  node['db2']['install']
   db2_port  node['db2']['port']
@@ -199,9 +203,5 @@ workflow_install 'ibm_workflow' do
   db2_fenced_password  db2_fenced_password
   db2_das_username  node['db2']['das_username']
   db2_das_password  db2_das_password
-#  im_repo_user  node['ibm']['im_repo_user']
-#  im_repo_nonsecureMode 'true'
-  repo_nonsecureMode  repo_nonsecureMode
-  action [:prepare, :install_im, :install, :applyifix, :cleanup]
-#  action [:prepare]
+  action [:prepare, :install_im, :install, :cleanup]
 end

@@ -1,6 +1,6 @@
 {
-  "name": "workflow_v18_0_201806_create_singlecluster",
-  "description": "Setup IBM Business Automation Workflow 18.0 2018.06 SingleCluster",
+  "name": "workflow_v18_0_201809_create_singleclusters",
+  "description": "Setup IBM Business Automation Workflow 18.0 2018.09 SingleCluster on Multiple Nodes",
   "json_class": "Chef::Role",
   "default_attributes": {
     "workflow": {
@@ -10,19 +10,23 @@
           "gid": "workflowgroup"
         }
       },
+      "ip_hostname_pairs": {},
       "install_dir": "/home/workflowuser01/IBM/Workflow",
       "install_mode": "nonAdmin",
       "config": {
         "product_type": "Advanced",
         "deployment_type": "PC",
-        "cluster_type": "SingleCluster",
+        "cluster_type": "SingleClusters",
         "deadmin_alias_user": "deadmin",
         "deadmin_alias_password": "",
         "celladmin_alias_user": "admin",
         "celladmin_alias_password": "",
         "dmgr_hostname": "",
-        "node_hostname": "",
-        "db2_install": "true",
+        "node_hostnames": "",
+        "ihs_hostname": "",
+        "ihs_https_port": "",
+        "case_network_shared_dir": "",
+        "db2_install": "false",
         "db2_hostname": "",
         "db2_port": "50000",
         "db_alias_user": "db2inst1",
@@ -65,7 +69,7 @@
   },
   "chef_type": "role",
   "run_list": [
-    "recipe[workflow::create_singlecluster]"
+    "recipe[workflow::create_singleclusters]"
   ],
   "env_run_lists": {
 

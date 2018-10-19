@@ -41,9 +41,9 @@ case node['platform_family']
 when 'debian'
   case node['kernel']['machine']
   when 'x86_64'
-  	# for db2, was and workflow
-  	# keep it as-is currently, theoretically, no risk to allow editing if indeed need. If don't expose it out, not sure if we already covered enough.
-    force_default['workflow']['prereq_packages'] = %w(libxtst6 libgtk2.0-bin libxft2 cpp gcc ksh openssh-server rpm unzip binutils libaio1 libnuma1 libpam0g:i386 libx32stdc++6)
+    # for db2, was and workflow
+    # keep it as-is currently, theoretically, no risk to allow editing if indeed need. If don't expose it out, not sure if we already covered enough.
+    force_default['workflow']['prereq_packages'] = %w(libxtst6 libgtk2.0-bin libxft2 cpp gcc ksh openssh-server rpm unzip binutils libaio1 libnuma1 libpam0g:i386 libx32stdc++6 nfs-common)
   end
 end
 
@@ -110,6 +110,9 @@ force_default['workflow']['config']['db2_schema'] = node['workflow']['config']['
 
 # The database data directory path.
 force_default['workflow']['config']['db2_data_dir'] = '/home/' + node['workflow']['config']['db_alias_user'] + '/' + node['workflow']['config']['db_alias_user'] + '/NODE0000'
+
+# The unified local case network shared directory, the attribute is defined for the limitation that same 
+default['workflow']['config']['local_case_network_shared_dir'] = '/opt/IBM/Workflow/CaseManagement/properties'
 
 #
 # <> Attributes defined for chef-vault

@@ -493,6 +493,144 @@
                 "selectable": "false",
                 "type": "string"
             },
+            "cpedb": {
+                "icndb": {
+                    "schema": {
+                      "default": "ICNSA",
+                      "description": "Specifies the schema for IBM Content Navigator (ICN)",
+                      "displayname": "Content Database - IBM Content Navigator Schema",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tsicn": {
+                      "default": "WFICNTS",
+                      "description": "Specifies the table space for IBM Content Navigator (ICN)",
+                      "displayname": "Content Database - IBM Content Navigator Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    }
+                },
+                "dosdb": {
+                    "schema": {
+                      "default": "DOSSA",
+                      "description": "Specifies the schema for the design object store (DOS)",
+                      "displayname": "Content Database - Design Object Store Schema",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tsdosdata": {
+                      "default": "DOSSA_DATA_TS",
+                      "description": "Specifies the data table space for the design object store (DOS)",
+                      "displayname": "Content Database - Design Object Store Data Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tsdoslob": {
+                      "default": "DOSSA_LOB_TS",
+                      "description": "Specifies large object table space for the design object store (DOS)",
+                      "displayname": "Content Database - Design Object Store Large Object Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tsdosdata": {
+                      "default": "DOSSA_IDX_TS",
+                      "description": "Specifies index table space for the design object store (DOS)",
+                      "displayname": "Content Database - Design Object Store Index Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    }
+                },
+                "tosdb": {
+                    "schema": {
+                      "default": "TOSSA",
+                      "description": "Specifies the schema for the target object store (TOS)",
+                      "displayname": "Content Database - Target Object Store Schema",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tstosdata": {
+                      "default": "TOSSA_DATA_TS",
+                      "description": "Specifies data table space for the target object store (TOS)",
+                      "displayname": "Content Database - Target Object Store Data Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tstoslob": {
+                      "default": "TOSSA_LOB_TS",
+                      "description": "Specifies large object table space for the target object store (TOS)",
+                      "displayname": "Content Database - Target Object Store Large Object Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    },
+                    "tstosidx": {
+                      "default": "TOSSA_IDX_TS",
+                      "description": "Specifies index table space for the target object store (TOS)",
+                      "displayname": "Content Database - Target Object Store Index Table Space",
+                      "hidden": "false",
+                      "immutable_after_create": "true",
+                      "parm_type": "node",
+                      "precedence_level": "node",
+                      "required": "true",
+                      "secret": "false",
+                      "selectable": "false",
+                      "type": "string"
+                    }
+                }
+            },
             "ps_environment_purpose": {
                 "choice": [
                     "Development",

@@ -253,10 +253,10 @@ bpm.de.db.3.portNumber=<%=@DB2_PORT %>
 # The name of the database.
 bpm.de.db.3.databaseName=<%=@DB2_CPEDB_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.3.schema=ICNSA
-bpm.de.db.3.tsicn=WFICNTS
+bpm.de.db.3.schema=<%=@CPEDB_ICNDB_SCHEMA %>
+bpm.de.db.3.tsicn=<%=@CPEDB_ICNDB_TSICN %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.3.databaseDataDirectoryPath=<%=@DB2_DATA_PATH %>
+bpm.de.db.3.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
 
 #######################################################
 # Database role and authentication alias associations #
@@ -289,12 +289,12 @@ bpm.de.db.4.portNumber=<%=@DB2_PORT %>
 # The name of the database.
 bpm.de.db.4.databaseName=<%=@DB2_CPEDB_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.4.schema=DOSSA
-bpm.de.db.4.tsdosdata=DOSSA_DATA_TS
-bpm.de.db.4.tsdoslob=DOSSA_LOB_TS
-bpm.de.db.4.tsdosidx=DOSSA_IDX_TS
+bpm.de.db.4.schema=<%=@CPEDB_DOSDB_SCHEMA %>
+bpm.de.db.4.tsdosdata=<%=@CPEDB_DOSDB_TSDOSDATA %>
+bpm.de.db.4.tsdoslob=<%=@CPEDB_DOSDB_TSDOSDLOB %>
+bpm.de.db.4.tsdosidx=<%=@CPEDB_DOSDB_TSDOSIDX %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.4.databaseDataDirectoryPath=<%=@DB2_DATA_PATH %>
+bpm.de.db.4.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
 
 #######################################################
 # Database role and authentication alias associations #
@@ -327,12 +327,12 @@ bpm.de.db.5.portNumber=<%=@DB2_PORT %>
 # The name of the database.
 bpm.de.db.5.databaseName=<%=@DB2_CPEDB_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.5.schema=TOSSA
-bpm.de.db.5.tstosdata=TOSSA_DATA_TS
-bpm.de.db.5.tstoslob=TOSSA_LOB_TS
-bpm.de.db.5.tstosidx=TOSSA_IDX_TS
+bpm.de.db.5.schema=<%=@CPEDB_TOSDB_SCHEMA %>
+bpm.de.db.5.tstosdata=<%=@CPEDB_TOSDB_TSTOSDATA %>
+bpm.de.db.5.tstoslob=<%=@CPEDB_TOSDB_TSTOSLOB %>
+bpm.de.db.5.tstosidx=<%=@CPEDB_TOSDB_TSTOSIDX %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.5.databaseDataDirectoryPath=<%=@DB2_DATA_PATH %>
+bpm.de.db.5.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
 
 #######################################################
 # Database role and authentication alias associations #
@@ -418,7 +418,7 @@ bpm.de.db.7.roleMapping.2.alias=BPM_DB_ALIAS
 # Case Manager Properties #
 ###########################
 # The network directory shared among multiple process servers in the deployment environment.
-bpm.de.caseManager.networkSharedDirectory=${WAS_INSTALL_ROOT}/CaseManagement/properties
+bpm.de.caseManager.networkSharedDirectory=<%=@BAW_INSTALL_PATH %>/CaseManagement/properties
 bpm.de.caseManager.formsType=eForms only
 bpm.de.caseManager.ibmFormsDirectory=
 bpm.de.caseManager.ibmFormsRenderApp=autoDetect

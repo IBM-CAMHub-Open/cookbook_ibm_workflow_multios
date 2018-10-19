@@ -1,7 +1,7 @@
 IBM Business Automation Workflow Cookbook
 ============
 
-Installs and configures IBM Business Automation Workflow
+Installs and configures IBM Business Automation Workflow.
 
 Requirements
 ------------
@@ -27,12 +27,12 @@ Attributes
   </tr>
   <tr>
     <td><code>node['ibm']['sw_repo']</code></td>
-    <td>The location from which to download installation images.</td>
+    <td>The location to download the installation images from.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['ibm']['ifix_repo']</code></td>
-    <td>The location from which to download ifixes.</td>
+    <td>The location to download the interim fixes from.</td>
     <td><code></code></td>
   </tr>
   <tr>
@@ -42,7 +42,7 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['install_mode']</code></td>
-    <td>In what mode you install Business Automation Workflow.</td>
+    <td>The mode to install IBM Business Automation Workflow in.</td>
     <td><code>admin</code></td>
   </tr>
   <tr>
@@ -57,7 +57,7 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['os_users']['workflow']['comment']</code></td>
-    <td>A comment which you can add when you create the user identifier.</td>
+    <td>A comment that you can add when you create the user identifier.</td>
     <td><code>Business Automation Workflow OS user</code></td>
   </tr>
   <tr>
@@ -72,12 +72,12 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['version']</code></td>
-    <td>The release and fix pack level of the Business Automation Workflow package you are installing. For example, 18001 for version 18.0.0.1.</td>
+    <td>The release and fix pack level of the IBM Business Automation Workflow package you are installing. For example, 18001 for version 18.0.0.1.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['install_dir']</code></td>
-    <td>The installation root directory for Business Automation Workflow.</td>
+    <td>The installation root directory for IBM Business Automation Workflow.</td>
     <td><code>/opt/IBM/Workflow</code></td>
   </tr>
   <tr>
@@ -87,27 +87,27 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['ifix_names']</code></td>
-    <td>The ifix list in string format. For example "ifix1.zip, ifix2.zip, ifix3.zip"</td>
+    <td>The interim fix list in string format. For example "ifix1.zip, ifix2.zip, ifix3.zip"</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['features']</code></td>
-    <td>The Business Automation Workflow feature, for example 'WorkflowEnterprise.Production' or 'WorkflowEnterprise.NonProduction'.</td>
+    <td>The IBM Business Automation Workflow feature, for example 'WorkflowEnterprise.Production' or 'WorkflowEnterprise.NonProduction'.</td>
     <td><code>WorkflowEnterprise.Production</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['offering_id']</code></td>
-    <td>The product identifier of the Business Automation Workflow offering.</td>
+    <td>The product identifier of the IBM Business Automation Workflow offering.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['offering_version']</code></td>
-    <td>The Business Automation Workflow offering version value.</td>
+    <td>The IBM Business Automation Workflow offering version value.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['profile_id']</code></td>
-    <td>The profile information that will be injected into the response file and used to install Business Automation Workflow.</td>
+    <td>The profile information that will be put into the response file and used to install IBM Business Automation Workflow.</td>
     <td><code></code></td>
   </tr>
   <tr>
@@ -122,7 +122,7 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['config']['cluster_type']</code></td>
-    <td>The type of cluster: SingleCluster or ThreeClusters(which will be supported later).</td>
+    <td>The type of cluster: SingleCluster, SingleClusters, or ThreeClusters (not yet supported).</td>
     <td><code>SingleCluster</code></td>
   </tr>
   <tr>
@@ -151,58 +151,138 @@ Attributes
     <td><code></code></td>
   </tr>
   <tr>
+    <td><code>node['workflow']['ip_hostname_pairs']</code></td>
+    <td>The IPv4 address and fully qualified domain name pairs for all provisioned virtual machines.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['node_hostnames']</code></td>
+    <td>The fully qualified domain names of all nodes in the deployment environment.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
     <td><code>node['workflow']['config']['node_hostname']</code></td>
     <td>The fully qualified domain name of this node.</td>
     <td><code></code></td>
   </tr>
   <tr>
+    <td><code>node['workflow']['config']['ihs_hostname']</code></td>
+    <td>The fully qualified domain name of the IBM HTTP Server.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['ihs_https_port']</code></td>
+    <td>The port number of the IBM HTTP Server.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['case_network_shared_dir']</code></td>
+    <td>The network shared directory (NFS type only), which is shared among multiple nodes in the deployment environment. Required for the Advanced product type with multiple nodes.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['db2_install']</code></td>
+    <td>A flag to determine whether Db2 is installed as the embedded database system.</td>
+    <td><code></code></td>
+  </tr>
+  <tr>
     <td><code>node['workflow']['config']['db2_hostname']</code></td>
-    <td>The fully qualified domain name of the DB2 database.</td>
+    <td>The fully qualified domain name of the Db2 database.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db2_port']</code></td>
-    <td>The port number of the DB2 database.</td>
+    <td>The port number of the Db2 database.</td>
     <td><code>50000</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db_alias_user']</code></td>
-    <td>The username of the DB2 database, which will be used to create the database user authentication alias.</td>
+    <td>The user name of the Db2 database that will be used to create the database user authentication alias.</td>
     <td><code>db2inst1</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db_alias_password']</code></td>
-    <td>The password of the DB2 database, which will be used to create the database user authentication alias.</td>
+    <td>The password of the Db2 database that will be used to create the database user authentication alias.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db2_bpmdb_name']</code></td>
-    <td>The name of the Business Automation Workflow ProcessServerDb database.</td>
+    <td>The name of the Process database.</td>
     <td><code>BPMDB</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db2_pdwdb_name']</code></td>
-    <td>The name of the Business Automation Workflow PerformanceDb database.</td>
+    <td>The name of the Performance Data Warehouse database.</td>
     <td><code>PDWDB</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db2_cmndb_name']</code></td>
-    <td>The name of the Business Automation Workflow CommonDB database.</td>
+    <td>The name of the Common database.</td>
     <td><code>CMNDB</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['db2_cpedb_name']</code></td>
-    <td>The name of Business Automation Workflow CPEDB database.</td>
+    <td>The name of the Content database.</td>
     <td><code>CPEDB</code></td>
   </tr>
   <tr>
+    <td><code>node['workflow']['config']['cpedb']['icndb']['schema']</code></td>
+    <td>The schema for IBM Content Navigator (ICN).</td>
+    <td><code>ICNSA</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['icndb']['tsicn']</code></td>
+    <td>The table space for IBM Content Navigator (ICN).</td>
+    <td><code>WFICNTS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['dosdb']['schema']</code></td>
+    <td>The schema for the design object store (DOS).</td>
+    <td><code>DOSSA</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['dosdb']['tsdosdata']</code></td>
+    <td>The data table space for the design object store (DOS).</td>
+    <td><code>DOSSA_DATA_TS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['dosdb']['tsdoslob']</code></td>
+    <td>The large object table space for the design object store (DOS).</td>
+    <td><code>DOSSA_LOB_TS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['dosdb']['tsdosidx']</code></td>
+    <td>The index table space for the design object store (DOS).</td>
+    <td><code>DOSSA_IDX_TS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['tosdb']['schema']</code></td>
+    <td>The schema for the target object store (TOS).</td>
+    <td><code>TOSSA</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['tosdb']['tstosdata']</code></td>
+    <td>The data table space for the target object store (TOS).</td>
+    <td><code>TOSSA_DATA_TS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['tosdb']['tstoslob']</code></td>
+    <td>The large object table space for the target object store (TOS).</td>
+    <td><code>TOSSA_LOB_TS</code></td>
+  </tr>
+  <tr>
+    <td><code>node['workflow']['config']['cpedb']['tosdb']['tstosidx']</code></td>
+    <td>The index table space for the target object store (TOS).</td>
+    <td><code>TOSSA_IDX_TS</code></td>
+  </tr>
+  <tr>
     <td><code>node['workflow']['config']['ps_environment_purpose']</code></td>
-    <td>The purpose of this Workflow Server environment: Development, Test, Staging, or Production, which is necessary for the Workflow Server deployment environment.</td>
+    <td>The purpose of this Workflow Server deployment environment: Development, Test, Staging, or Production.</td>
     <td><code>Development</code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['ps_offline']</code></td>
-    <td>The valid values are true or false. Set it to false if the Workflow Server is online and can be connected to the Workflow Center.</td>
+    <td>The valid values are true or false. Use false if the Workflow Server is online and can be connected to the Workflow Center.</td>
     <td><code>false</code></td>
   </tr>
   <tr>
@@ -242,62 +322,62 @@ Attributes
   </tr>
   <tr>
     <td><code>node['db2']['install']</code></td>
-    <td>A flag to determine whether to install DB2 as the embedded database system.</td>
+    <td>Whether to install Db2 as the embedded database system.</td>
     <td><code>true</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['offering_id']</code></td>
-    <td>The product ID of the Business Automation Workflow Embedded DB2 offering.</td>
+    <td>The product ID of the IBM Business Automation Workflow embedded Db2 offering.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['db2']['offering_version']</code></td>
-    <td>The Business Automation Workflow embeded DB2 offering version value.</td>
+    <td>The IBM Business Automation Workflow embedded Db2 offering version value.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['db2']['port']</code></td>
-    <td>The port number of the DB2 database.</td>
+    <td>The port number of the Db2 database.</td>
     <td><code>50000</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['username']</code></td>
-    <td>The username to the DB2 database.</td>
+    <td>The user name for the Db2 database.</td>
     <td><code>db2inst1</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['password']</code></td>
-    <td>The password to the DB2 database.</td>
+    <td>The password for the Db2 database.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['db2']['das_newuser']</code></td>
-    <td>A flag to determine whether to create a new das user.</td>
+    <td>Whether to create a new Db2 administration server user.</td>
     <td><code>true</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['fenced_newuser']</code></td>
-    <td>A flag to determine whether to create a new fenced user.</td>
+    <td>Whether to create a new fenced user.</td>
     <td><code>true</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['fenced_username']</code></td>
-    <td>The fenced username to the DB2 database.</td>
+    <td>The fenced user name for the Db2 database.</td>
     <td><code>db2fenc1</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['fenced_password']</code></td>
-    <td>The fenced password to the DB2 database.</td>
+    <td>The fenced password for the Db2 database.</td>
     <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['db2']['das_username']</code></td>
-    <td>The das username to the DB2 database.</td>
+    <td>The user name for the Db2 administration server.</td>
     <td><code>dasusr1</code></td>
   </tr>
   <tr>
     <td><code>node['db2']['das_password']</code></td>
-    <td>The das password to the DB2 database.</td>
+    <td>The password for the Db2 administration server.</td>
     <td><code></code></td>
   </tr>
 </table>
@@ -308,25 +388,40 @@ Recipes
 
 ### workflow::prereq.rb
 
-Adds the prerequisites that need to be added to the environment before you install Business Automation Workflow. This includes
-Adding users, Packages, Kernel Configuration
+Adds the prerequisites that need to be added to the environment before you install Business Automation Workflow, including
+adding users, packages, and kernel configuration.
 
 ### workflow::prereq_check.rb
 
-Checks the environment before software is installed.
+Checks the environment before the software is installed.
 
 ### workflow::install.rb
 
 Installs IBM Business Automation Workflow.
 
+### workflow::applyifix.rb
+
+Applies interim fixes to IBM Business Automation Workflow.
+
 ### workflow::cleanup.rb
 
-Removes all unwanted files, such as installation media and temp files.
+Removes all unwanted files, such as installation media and temporary files.
 
-### workflow::createde.rb
+### workflow::create_singlecluster.rb
 
-Creates an IBM Business Automation Workflow SingleCluster topology.
+Creates an IBM Business Automation Workflow Single Cluster topology.
 
+### workflow::create_singleclusters.rb
+
+Creates an IBM Business Automation Workflow Single Cluster on Multiple Nodes topology.
+
+### workflow::ihs.rb
+
+Configures IBM HTTP Server.
+
+### workflow::webserver.rb
+
+Creates a web server in the IBM Business Automation Workflow environment.
 
 License and Author
 ------------------
@@ -336,4 +431,3 @@ Author:: IBM Corp (<>)
 Copyright:: 2018, IBM Corp
 
 License:: Copyright IBM Corp. 2018
-

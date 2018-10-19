@@ -14,8 +14,8 @@
 # limitations under the License.
 # =================================================================
 
-# Cookbook Name:: workflow 
-# Library:: im_helper
+# Cookbook Name:: workflow
+# Library:: wf_helper
 #
 # <> library: Workflow helper
 # <> Library Functions for the Workflow Cookbook
@@ -27,13 +27,13 @@ module WF
   module Helper
     # get sub directories
     def subdirs_to_create(dir, user)
-      Chef::Log.info("Dir to create: #{dir}, user: #{user}")
+      Chef::Log.info "Dir to create: #{dir}, user: #{user}"
       existing_subdirs = []
       remaining_subdirs = dir.split('/')
       remaining_subdirs.shift # get rid of '/'
 
       until remaining_subdirs.empty?
-        Chef::Log.info("remaining_subdirs: #{remaining_subdirs.inspect}, existing_subdirs: #{existing_subdirs.inspect}")
+        Chef::Log.info "remaining_subdirs: #{remaining_subdirs.inspect}, existing_subdirs: #{existing_subdirs.inspect}"
         path = existing_subdirs.push('/' + remaining_subdirs.shift).join
         break unless File.exist?(path)
         raise "Path #{path} exists and is a file, expecting directory." unless File.directory?(path)
@@ -54,5 +54,165 @@ module WF
       byme || byus || byall
     end
 
+    # determine if the passed-in hostname is host name of current node
+    # TODO: consider if support IP as hostname?
+    def self.same_node?(hostname, chostname)
+      Chef::Log.info "same_node?(#{hostname}, #{chostname})"
+      shorthostname = hostname
+      shorthostname = hostname[0, hostname.index('.')] if !hostname.nil? && hostname.index('.')
+      short_chname = chostname
+      short_chname = chostname[0, chostname.index('.')] if !chostname.nil? && chostname.index('.')
+      Chef::Log.info "same_node, short hostname: #{shorthostname}, short chostname: #{short_chname}"
+      short_chname == shorthostname
+    end
+
+    def self.run_jython(os_user, profile_path, host, port, admin_user, admin_pwd, jython_file)
+      security_credentials =
+        if admin_user.nil?
+          ''
+        else
+          "-user '#{admin_user}' -password '#{admin_pwd}'"
+        end
+
+      dmgr_connection_string =
+        if host.nil?
+          '-conntype NONE'
+        else
+          "-conntype SOAP -host '#{host}' -port '#{port}'"
+        end
+
+      wsadmin_cmd = shell_out!(%Q[ su - #{os_user} -c "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; #{profile_path}/bin/wsadmin.sh -lang jython -f #{jython_file} #{dmgr_connection_string} #{security_credentials}" ])
+      wsadmin_cmd.stdout
+    end
+
+    def stop_env(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      Chef::Log.info "stop_env(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      stop_server(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      stop_nodeagent(runas_user, nodeIndex, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      stop_dmgr(runas_user, runas_group, install_dir, wfadmin_user, wfadmin_password)
+    end
+
+    def stop_server(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      Chef::Log.info "stop_server(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      unless server_stopped?(runas_user, nodeIndex, serverName)
+        cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopServer.sh #{serverName} -username #{wfadmin_user} -password #{wfadmin_password}"
+        cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopServer.sh SingleClusterMember1 -username #{wfadmin_user} -password #{wfadmin_password}" if serverName.nil? || serverName.empty?
+        execute 'stop Server' do
+          cwd "#{install_dir}/profiles/Node#{nodeIndex}Profile/bin"
+          command cmd
+          user runas_user
+          group runas_group
+        end
+      end
+    end
+
+    def stop_nodeagent(runas_user, nodeIndex, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      Chef::Log.info "stop_nodeagent(#{runas_user}, #{nodeIndex}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      unless nodeagent_stopped?(runas_user, nodeIndex)
+        execute 'stop Node Agent' do
+          cwd "#{install_dir}/profiles/Node#{nodeIndex}Profile/bin"
+          command "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopNode.sh -username #{wfadmin_user} -password #{wfadmin_password}"
+          user runas_user
+          group runas_group
+        end
+      end
+    end
+
+    def stop_dmgr(runas_user, runas_group, install_dir, wfadmin_user, wfadmin_password)
+      Chef::Log.info "stop_dmgr(#{runas_user}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      unless dmgr_stopped?(runas_user)
+        execute 'stop Dmgr' do
+          cwd "#{install_dir}/profiles/DmgrProfile/bin"
+          command "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopManager.sh -username #{wfadmin_user} -password #{wfadmin_password}"
+          user runas_user
+          group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/DmgrProfile") }
+        end
+      end
+    end
+
+    def server_stopped?(runas_user, nodeIndex, serverName)
+      Chef::Log.info "server_stopped?(#{runas_user}, #{nodeIndex}, #{serverName})"
+      ps_server_out = shell_out("ps -o args -u #{runas_user} | grep \"Node#{nodeIndex} #{serverName}\"")
+      ps_server_out.stdout == ''
+    end
+
+    def nodeagent_stopped?(runas_user, nodeIndex)
+      Chef::Log.info "nodeagent_stopped?(#{runas_user}, #{nodeIndex})"
+      ps_nodeagent_out = shell_out("ps -o args -u #{runas_user} | grep \"Node#{nodeIndex} nodeagent\"")
+      ps_nodeagent_out.stdout == ''
+    end
+
+    def dmgr_stopped?(runas_user)
+      Chef::Log.info "dmgr_stopped?( #{runas_user})"
+      ps_dmgr_out = shell_out("ps -o args -u #{runas_user} | grep 'Dmgr dmgr'")
+      ps_dmgr_out.stdout == ''
+    end
+
+    def compute_server_name(node_hostnames, current_hostname)
+      Chef::Log.info "server_name(#{node_hostnames}, #{current_hostname})"
+
+      serverName = nil
+      node_hostnames = node_hostnames.split(",")
+
+      index = 0
+      valid_hnames = []
+      node_hostnames.each do |node_hostname|
+        Chef::Log.info("node: #{node_hostname}")
+        # ignore if the node_hostname is not valid
+        next if node_hostname.nil? || node_hostname.lstrip.empty?
+
+        # remove the blanks before and after the node hostname
+        node_hostname = node_hostname.lstrip.rstrip
+
+        next if valid_hnames.include?(node_hostname)
+        valid_hnames.push(node_hostname)
+
+        index = index + 1
+
+        # record current node's server name
+        if WF::Helper.same_node?(node_hostname,current_hostname)
+          serverName = "SingleClusterMember#{index}"
+          break
+        end
+      end
+
+      serverName = valid_hnames.at(0) if serverName.nil? && index == 1
+      Chef::Log.info "compute_server_name result: #{serverName}"
+      serverName
+    end
+
+    def compute_node_index(node_hostnames, current_hostname)
+      Chef::Log.info "node_index(#{node_hostnames}, #{current_hostname})"
+
+      nodeIndex = nil
+      node_hostnames = new_resource.node_hostnames.split(",")
+
+      index = 0
+      valid_hnames = []
+      node_hostnames.each do |node_hostname|
+        Chef::Log.info("node: #{node_hostname}")
+        # ignore if the node_hostname is not valid
+        next if node_hostname.nil? || node_hostname.lstrip.empty?
+
+        # remove the blanks before and after the node hostname
+        node_hostname = node_hostname.lstrip.rstrip
+
+        next if valid_hnames.include?(node_hostname)
+        valid_hnames.push(node_hostname)
+
+        index = index + 1
+
+        # record current node's index
+        if WF::Helper.same_node?(node_hostname, current_hostname)
+          nodeIndex = index
+          break
+        end
+      end
+
+      nodeIndex = 1 if nodeIndex.nil? && index == 1
+      Chef::Log.info "compute_node_index result: #{nodeIndex}"
+      nodeIndex
+    end
   end
 end

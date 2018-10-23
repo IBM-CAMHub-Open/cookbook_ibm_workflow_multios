@@ -72,7 +72,7 @@ Attributes
   </tr>
   <tr>
     <td><code>node['workflow']['version']</code></td>
-    <td>The release and fix pack level of the IBM Business Automation Workflow package you are installing. For example, 18001 for version 18.0.0.1.</td>
+    <td>The release and fix pack level of the IBM Business Automation Workflow package you are installing. For example, 18.0.0.1 for version 18.0.0.1.</td>
     <td><code></code></td>
   </tr>
   <tr>

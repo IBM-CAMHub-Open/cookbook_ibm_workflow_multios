@@ -62,14 +62,19 @@ case node['workflow']['features']
 end
 
 # Constants, used to download & extract installation images, archives list, base on os, workflow version
-# TODO: if support other OS later, need case it to replace the 'linux.x86' from following archive names
+# 
+# 1. BAW_18_0_0_1_Linux_x86_1_of_3.tar.gz
+# 2. BAW_18_0_0_1_Linux_x86_2_of_3.tar.gz
+# 3. BAW_18_0_0_1_Linux_x86_3_of_3.tar.gz
+#
+force_override['workflow']['version'] = node['workflow']['version'].gsub('.', '_')
 force_override['workflow']['archive_names'] = {
   'was' => {
-    'filename' => "workflowAll.dvd.#{node['workflow']['version']}.linux.x86.disk1.tar.gz" },
+    'filename' => "BAW_#{node['workflow']['version']}_Linux_x86_1_of_3.tar.gz" },
   'workflow' => {
-    'filename' => "workflow#{node['workflow']['edition']}.dvd.#{node['workflow']['version']}.linux.x86.disk2.tar.gz" },
+    'filename' => "BAW_#{node['workflow']['version']}_Linux_x86_2_of_3.tar.gz" },
   'db2' => {
-    'filename' => "workflowAll.dvd.#{node['workflow']['version']}.linux.x86.disk3.tar.gz" }
+    'filename' => "BAW_#{node['workflow']['version']}_Linux_x86_3_of_3.tar.gz" }
 }
 
 # The runas user/group while doing 'execute'

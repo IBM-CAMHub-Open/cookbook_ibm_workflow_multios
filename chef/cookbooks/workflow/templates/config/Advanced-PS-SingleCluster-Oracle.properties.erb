@@ -58,12 +58,54 @@ bpm.de.authenticationAlias.2.name=ProcessCenterUserAlias
 bpm.de.authenticationAlias.2.user=<%=@PC_ALIAS_USER %>
 bpm.de.authenticationAlias.2.password=<%=@PC_ALIAS_PWD %>
 
-######################################
-# Database user authentication alias #
-######################################
-bpm.de.authenticationAlias.3.name=BPM_DB_ALIAS
-bpm.de.authenticationAlias.3.user=<%=@BPMDB_ALIAS_USER %>
-bpm.de.authenticationAlias.3.password=<%=@BPMDB_ALIAS_PWD %>
+##########################################################
+# Database user authentication alias for common database #
+##########################################################
+bpm.de.authenticationAlias.3.name=BPM_DB_CMN_ALIAS
+bpm.de.authenticationAlias.3.user=<%=@ORACLE_CMNDB_ALIAS_USER %>
+bpm.de.authenticationAlias.3.password=<%=@ORACLE_CMNDB_ALIAS_PWD %>
+
+######################################################################
+# Database user authentication alias for the Process Server database #
+######################################################################
+bpm.de.authenticationAlias.4.name=BPM_DB_PS_ALIAS
+bpm.de.authenticationAlias.4.user=<%=@ORACLE_PSDB_ALIAS_USER %>
+bpm.de.authenticationAlias.4.password=<%=@ORACLE_PSDB_ALIAS_PWD %>
+
+###############################################
+# bpm.de.authenticationAlias.BPM_DB_ICN_ALIAS #
+###############################################
+bpm.de.authenticationAlias.5.name=BPM_DB_ICN_ALIAS
+bpm.de.authenticationAlias.5.user=<%=@ORACLE_ICNDB_ALIAS_USER %>
+bpm.de.authenticationAlias.5.password=<%=@ORACLE_ICNDB_ALIAS_PWD %>
+
+###############################################
+# bpm.de.authenticationAlias.BPM_DB_DOS_ALIAS #
+###############################################
+bpm.de.authenticationAlias.6.name=BPM_DB_DOS_ALIAS
+bpm.de.authenticationAlias.6.user=<%=@ORACLE_DOSDB_ALIAS_USER %>
+bpm.de.authenticationAlias.6.password=<%=@ORACLE_DOSDB_ALIAS_PWD %>
+
+###############################################
+# bpm.de.authenticationAlias.BPM_DB_TOS_ALIAS #
+###############################################
+bpm.de.authenticationAlias.7.name=BPM_DB_TOS_ALIAS
+bpm.de.authenticationAlias.7.user=<%=@ORACLE_TOSDB_ALIAS_USER %>
+bpm.de.authenticationAlias.7.password=<%=@ORACLE_TOSDB_ALIAS_PWD %>
+
+##################################################################################
+# Database user authentication alias for the Performance Data Warehouse database #
+##################################################################################
+bpm.de.authenticationAlias.8.name=BPM_DB_PDW_ALIAS
+bpm.de.authenticationAlias.8.user=<%=@ORACLE_PDWDB_ALIAS_USER %>
+bpm.de.authenticationAlias.8.password=<%=@ORACLE_PDWDB_ALIAS_PWD %>
+
+########################################################
+# Database user authentication alias for cell database #
+########################################################
+bpm.de.authenticationAlias.9.name=BPM_DB_CELL_ALIAS
+bpm.de.authenticationAlias.9.user=<%=@ORACLE_CELLDB_ALIAS_USER %>
+bpm.de.authenticationAlias.9.password=<%=@ORACLE_CELLDB_ALIAS_PWD %>
 
 #########################################################################################################################################################################################################################################################################################################################################################################################
 # The deployment environment administrator role and authentication alias association. If you do not specify the BPMAuthor role, the authentication alias that maps to this role will be used when Process Center connects to IBM Process Server for online deployment. It must be defined in both Process Server and Process Center, and the user names and passwords must be the same. #
@@ -122,7 +164,7 @@ bpm.dmgr.profileOptions=
 # To override the default port assignments for this profile, specify a starting port number for generating and assigning ports.
 bpm.dmgr.initialPortAssignment=
 # The value for the JDBC driver path WebSphere environment variable.
-bpm.dmgr.jdbcDriverPath=${WAS_INSTALL_ROOT}/jdbcdrivers/DB2
+bpm.dmgr.jdbcDriverPath=${WAS_INSTALL_ROOT}/jdbcdrivers/Oracle
 # The deployment manager SOAP port. This port is used to establish a connection to the deployment manager during the creation of remote nodes. Update this property after you create the deployment manager profile.
 bpm.dmgr.soapPort=8879
 
@@ -141,7 +183,37 @@ bpm.de.cluster.1.capability.1.component.1.name=ProcessPortal
 bpm.de.cluster.1.capability.1.component.1.contextRootPrefix=
 
 
-<%=@NODES_CONFIG %>
+
+##########################
+# Node properties: Node1 #
+##########################
+bpm.de.node.1.name=Node1
+# If the host name is the same as the deployment manager, this node will be created on the same computer. Do not use localhost for environments that span multiple hosts.
+bpm.de.node.1.hostname=<%=@NODE_HOST_NAME %>
+# The installation location of the IBM Business Automation Workflow product. If you want to use a backslash character (\) in your properties file, you must use an escape backslash before it; for example, bpm.de.node.1.installPath=C:\\IBM\\BPM\\v8.6.
+bpm.de.node.1.installPath=<%=@BAW_INSTALL_PATH %>
+# The name of the node profile.
+bpm.de.node.1.profileName=Node1Profile
+# The file path of the managed node profile. It must be a valid path for the target system and must not be currently in use. You must have permissions to write to the directory. To use the default path, do not specify any value for the property. If you want to use a backslash character (\) in your properties file, you must use an escape backslash before it; for example, bpm.dmgr.profilePath=C:\\IBM\\BPM\\v8.6\\profiles\\Node1Profile.
+bpm.de.node.1.profilePath=
+# Custom options that are passed to the 'manageprofiles' command and used primarily to customize port assignments.
+bpm.de.node.1.profileOptions=
+# To override the default port assignments for this profile, specify a starting port number for generating and assigning ports.
+bpm.de.node.1.initialPortAssignment=
+# The value for the JDBC driver path WebSphere environment variable.
+bpm.de.node.1.jdbcDriverPath=${WAS_INSTALL_ROOT}/jdbcdrivers/Oracle
+
+###################################################
+# Cluster member properties: SingleClusterMember1 #
+###################################################
+bpm.de.node.1.clusterMember.1.name=SingleClusterMember1
+# The cluster that this cluster member belongs to. This value should correspond to the name of a cluster defined in this file.
+bpm.de.node.1.clusterMember.1.cluster=SingleCluster
+# The proportion of requests that are sent to this cluster member.
+bpm.de.node.1.clusterMember.1.weight=2
+bpm.de.node.1.clusterMember.1.initialPortAssignment=
+
+
 
 #################################
 # Database properties: SharedDb #
@@ -151,28 +223,28 @@ bpm.de.db.1.name=SharedDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.1.dbCapabilities=Messaging,BusinessSpace,CommonDB,BPC
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.1.type=DB2
+bpm.de.db.1.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.1.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.1.portNumber=<%=@DB2_PORT %>
+bpm.de.db.1.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.1.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.1.databaseName=<%=@DB2_SHAREDDB_NAME %>
+bpm.de.db.1.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.1.schema=<%=@BAW_DB_SCHEMA %>
+bpm.de.db.1.schema=<%=@ORACLE_CMNDB_ALIAS_USER %>
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.1.roleMapping.1.name=DbUser
-bpm.de.db.1.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.1.roleMapping.1.alias=BPM_DB_CMN_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.1.roleMapping.2.name=DbUserXAR
-bpm.de.db.1.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.1.roleMapping.2.alias=BPM_DB_CMN_ALIAS
 
 
 
@@ -184,28 +256,28 @@ bpm.de.db.2.name=ProcessServerDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.2.dbCapabilities=ProcessServer,EmbeddedECM
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.2.type=DB2
+bpm.de.db.2.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.2.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.2.portNumber=<%=@DB2_PORT %>
+bpm.de.db.2.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.2.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.2.databaseName=<%=@DB2_BPMDB_NAME %>
+bpm.de.db.2.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.2.schema=<%=@BAW_DB_SCHEMA %>
+bpm.de.db.2.schema=<%=@ORACLE_PSDB_ALIAS_USER %>
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.2.roleMapping.1.name=DbUser
-bpm.de.db.2.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.2.roleMapping.1.alias=BPM_DB_PS_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.2.roleMapping.2.name=DbUserXAR
-bpm.de.db.2.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.2.roleMapping.2.alias=BPM_DB_PS_ALIAS
 
 
 
@@ -217,31 +289,31 @@ bpm.de.db.3.name=IcnDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.3.dbCapabilities=ContentNavigator
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.3.type=DB2
+bpm.de.db.3.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.3.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.3.portNumber=<%=@DB2_PORT %>
+bpm.de.db.3.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.3.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.3.databaseName=<%=@DB2_CPEDB_NAME %>
+bpm.de.db.3.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.3.schema=<%=@CPEDB_ICNDB_SCHEMA %>
-bpm.de.db.3.tsicn=<%=@CPEDB_ICNDB_TSICN %>
+bpm.de.db.3.schema=<%=@ORACLE_ICNDB_ALIAS_USER %>
+bpm.de.db.3.tsicn=<%=@ORACLE_ICNDB_TSICN %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.3.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
+bpm.de.db.3.databaseDataDirectoryPath=
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.3.roleMapping.1.name=DbUser
-bpm.de.db.3.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.3.roleMapping.1.alias=BPM_DB_ICN_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.3.roleMapping.2.name=DbUserXAR
-bpm.de.db.3.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.3.roleMapping.2.alias=BPM_DB_ICN_ALIAS
 
 
 
@@ -253,33 +325,31 @@ bpm.de.db.4.name=DosDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.4.dbCapabilities=DesignObjectStore
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.4.type=DB2
+bpm.de.db.4.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.4.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.4.portNumber=<%=@DB2_PORT %>
+bpm.de.db.4.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.4.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.4.databaseName=<%=@DB2_CPEDB_NAME %>
+bpm.de.db.4.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.4.schema=<%=@CPEDB_DOSDB_SCHEMA %>
-bpm.de.db.4.tsdosdata=<%=@CPEDB_DOSDB_TSDOSDATA %>
-bpm.de.db.4.tsdoslob=<%=@CPEDB_DOSDB_TSDOSDLOB %>
-bpm.de.db.4.tsdosidx=<%=@CPEDB_DOSDB_TSDOSIDX %>
+bpm.de.db.4.schema=<%=@ORACLE_DOSDB_ALIAS_USER %>
+bpm.de.db.4.tsdosdata=<%=@ORACLE_DOSDB_TSDOSDATA %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.4.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
+bpm.de.db.4.databaseDataDirectoryPath=
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.4.roleMapping.1.name=DbUser
-bpm.de.db.4.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.4.roleMapping.1.alias=BPM_DB_DOS_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.4.roleMapping.2.name=DbUserXAR
-bpm.de.db.4.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.4.roleMapping.2.alias=BPM_DB_DOS_ALIAS
 
 
 
@@ -291,33 +361,31 @@ bpm.de.db.5.name=TosDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.5.dbCapabilities=TargetObjectStore
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.5.type=DB2
+bpm.de.db.5.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.5.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.5.portNumber=<%=@DB2_PORT %>
+bpm.de.db.5.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.5.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.5.databaseName=<%=@DB2_CPEDB_NAME %>
+bpm.de.db.5.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.5.schema=<%=@CPEDB_TOSDB_SCHEMA %>
-bpm.de.db.5.tstosdata=<%=@CPEDB_TOSDB_TSTOSDATA %>
-bpm.de.db.5.tstoslob=<%=@CPEDB_TOSDB_TSTOSLOB %>
-bpm.de.db.5.tstosidx=<%=@CPEDB_TOSDB_TSTOSIDX %>
+bpm.de.db.5.schema=<%=@ORACLE_TOSDB_ALIAS_USER %>
+bpm.de.db.5.tstosdata=<%=@ORACLE_TOSDB_TSTOSDATA %>
 # The database data directory is the location where information that is managed by the database is stored. Specify the same data directory for each bpm.de.db.databaseDataDirectoryPath.
-bpm.de.db.5.databaseDataDirectoryPath=<%=@DB2_DATA_DIR %>
+bpm.de.db.5.databaseDataDirectoryPath=
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.5.roleMapping.1.name=DbUser
-bpm.de.db.5.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.5.roleMapping.1.alias=BPM_DB_TOS_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.5.roleMapping.2.name=DbUserXAR
-bpm.de.db.5.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.5.roleMapping.2.alias=BPM_DB_TOS_ALIAS
 
 
 
@@ -329,28 +397,28 @@ bpm.de.db.6.name=PerformanceDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.6.dbCapabilities=PDW
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.6.type=DB2
+bpm.de.db.6.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.6.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.6.portNumber=<%=@DB2_PORT %>
+bpm.de.db.6.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.6.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.6.databaseName=<%=@DB2_PDWDB_NAME %>
+bpm.de.db.6.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.6.schema=<%=@BAW_DB_SCHEMA %>
+bpm.de.db.6.schema=<%=@ORACLE_PDWDB_ALIAS_USER %>
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.6.roleMapping.1.name=DbUser
-bpm.de.db.6.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.6.roleMapping.1.alias=BPM_DB_PDW_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.6.roleMapping.2.name=DbUserXAR
-bpm.de.db.6.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.6.roleMapping.2.alias=BPM_DB_PDW_ALIAS
 
 
 
@@ -362,34 +430,34 @@ bpm.de.db.7.name=CellOnlyDb
 # The list of available options depends on the product configuration. For a Standard DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, Messaging, and BusinessSpace. For an Advanced DE, the options are ProcessServer, EmbeddedECM, ContentNavigator, DesignObjectStore, TargetObjectStore, PDW, CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For an AdvancedOnly DE, the options are CellScopedDB, Messaging, BusinessSpace, CommonDB, and BPC. For EmbeddedECM, there is no support if the operating system for the IBM Business Automation Workflow environment is z/OS.
 bpm.de.db.7.dbCapabilities=CellScopedDB
 # Options: DB2, DB2zOS, Oracle, or SQL Server.
-bpm.de.db.7.type=DB2
+bpm.de.db.7.type=Oracle
 # The host name of the database. Do not use localhost for environments that span multiple hosts.
-bpm.de.db.7.hostname=<%=@DB2_HOST_NAME %>
-bpm.de.db.7.portNumber=<%=@DB2_PORT %>
+bpm.de.db.7.hostname=<%=@ORACLE_HOST_NAME %>
+bpm.de.db.7.portNumber=<%=@ORACLE_PORT %>
 # The name of the database.
-bpm.de.db.7.databaseName=<%=@DB2_CELLONLY_NAME %>
+bpm.de.db.7.databaseName=<%=@ORACLE_DATABASE_NAME %>
 # For information about the restrictions that pertain to IBM Business Automation Workflow database schema names, see the IBM Business Automation Workflow topic "Configuration properties for the BPMConfig command" in the IBM Knowledge Center: https://www.ibm.com/support/knowledgecenter/SS8JB4_18.0.0/com.ibm.wbpm.ref.doc/topics/samplecfgprops.html
-bpm.de.db.7.schema=<%=@BAW_DB_SCHEMA %>
+bpm.de.db.7.schema=<%=@ORACLE_CELLDB_ALIAS_USER %>
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.7.roleMapping.1.name=DbUser
-bpm.de.db.7.roleMapping.1.alias=BPM_DB_ALIAS
+bpm.de.db.7.roleMapping.1.alias=BPM_DB_CELL_ALIAS
 
 #######################################################
 # Database role and authentication alias associations #
 #######################################################
 # Do not modify this value. Role mapping names are predefined. Specify the user name in the authentication alias corresponding to this role.
 bpm.de.db.7.roleMapping.2.name=DbUserXAR
-bpm.de.db.7.roleMapping.2.alias=BPM_DB_ALIAS
+bpm.de.db.7.roleMapping.2.alias=BPM_DB_CELL_ALIAS
 
 ###########################
 # Case Manager Properties #
 ###########################
 # The network directory shared among multiple process servers in the deployment environment.
-bpm.de.caseManager.networkSharedDirectory=<%=@CASE_NETWORK_SHARED_DIR %>
+bpm.de.caseManager.networkSharedDirectory=<%=@BAW_INSTALL_PATH %>/CaseManagement/properties
 bpm.de.caseManager.formsType=eForms only
 bpm.de.caseManager.ibmFormsDirectory=
 bpm.de.caseManager.ibmFormsRenderApp=autoDetect

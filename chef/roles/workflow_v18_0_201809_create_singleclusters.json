@@ -3,6 +3,9 @@
   "description": "Setup IBM Business Automation Workflow 18.0 2018.09 SingleCluster on Multiple Nodes",
   "json_class": "Chef::Role",
   "default_attributes": {
+    "ibm": {
+      "sw_repo": ""
+    },
     "workflow": {
       "os_users": {
         "workflow": {
@@ -26,6 +29,7 @@
         "ihs_hostname": "",
         "ihs_https_port": "",
         "case_network_shared_dir": "",
+        "database_type": "DB2",
         "db2_install": "false",
         "db2_hostname": "",
         "db2_port": "50000",
@@ -53,6 +57,43 @@
             "tstosidx": "TOSSA_IDX_TS"
           }
         },
+        "oracle": {
+          "hostname": "",
+          "port": "1521",
+          "database_name": "orcl",
+          "jdbc_driver": "",
+          "shareddb": {
+            "username": "cmnuser",
+            "password": ""
+          },
+          "cellonlydb": {
+            "username": "celluser",
+            "password": ""
+          },
+          "psdb": {
+            "username": "psuser",
+            "password": ""
+          },
+          "icndb": {
+            "username": "icnuser",
+            "password": "",
+            "tsicn": "WFICNTS"
+          },
+          "dosdb": {
+            "username": "dosuser",
+            "password": "",
+            "tsdosdata": "DOSSA_DATA_TS"
+          },
+          "tosdb": {
+            "username": "tosuser",
+            "password": "",
+            "tstosdata": "TOSSA_DATA_TS"
+          },
+          "pdwdb": {
+            "username": "pdwuser",
+            "password": ""
+          }
+        },
         "ps_environment_purpose": "Production",
         "ps_offline": "false",
         "ps_pc_transport_protocol": "https",
@@ -60,7 +101,12 @@
         "ps_pc_port": "9443",
         "ps_pc_contextroot_prefix": "",
         "ps_pc_alias_user": "admin",
-        "ps_pc_alias_password": ""
+        "ps_pc_alias_password": "",
+        "metering": {
+          "identifier_name": "",
+          "url": "",
+          "apikey": ""
+        }
       }
     }
   },

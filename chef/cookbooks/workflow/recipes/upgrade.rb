@@ -16,9 +16,9 @@
 
 #
 # Cookbook Name::workflow
-# Recipe::applyifx
+# Recipe::upgrade
 #
-# <> Apply ifixes for IBM Business Automation Workflow
+# <> Upgrade for IBM Business Automation Workflow
 #
 
 # Decrypt the encrypted data, all kinds of password are encrypted.
@@ -35,18 +35,16 @@ end
 # Determine if https is used
 repo_nonsecureMode = 'false'
 secure_repo = 'false'
-if node['ibm']['ifix_repo'].match(/^https:\/\//)
+if node['ibm']['fixpack_repo'].match(/^https:\/\//)
   repo_nonsecureMode = 'true'
   secure_repo = 'true'
 end
 Chef::Log.info("repo_nonsecureMode: #{repo_nonsecureMode}")
 
-Chef::Resource::User.send(:include, IM::Helper)
-
 # TODO: enable secure mode for private repository and add SSL support later
-workflow_applyifix 'ibm_workflow' do
-  ifix_repo  node['ibm']['ifix_repo']
-  ifix_names  node['workflow']['ifix_names']
+workflow_upgrade 'ibm_workflow' do
+  fixpack_repo  node['ibm']['fixpack_repo']
+  fixpack_names  node['workflow']['fixpack_names']
   install_dir  node['workflow']['install_dir']
   im_install_mode  node['workflow']['install_mode']
   user  node['workflow']['runas_user']

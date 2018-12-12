@@ -18,8 +18,11 @@
 # Cookbook Name:: workflow
 # Provider:: workflow_createde
 
-actions :check_attrs, :prepare, :create, :restore_isc, :config_ihs, :start_dmgr, :create_case_group, :case_tune, :start_nodeagent, :start_server, :setup_case, :restore_case_tune, :stop_nodeagent, :stop_server, :ps_online_setup
+actions :check_attrs, :prepare, :create, :restore_isc, :config_ihs, :start_dmgr, :create_case_group, :case_tune, :start_nodeagent, :enable_metering, :start_server, :setup_case, :restore_case_tune, :stop_nodeagent, :stop_server, :ps_online_setup
 default_action :prepare
+
+# <> The repository to search.
+property :sw_repo, String
 
 # <> The installation root directory for the Business Automation Workflow.
 property :install_dir, String, required: true
@@ -71,6 +74,9 @@ property :case_network_shared_dir, String
 
 # <> The local mount point for case management network shared directory
 property :local_case_network_shared_dir, String
+
+# <> The database type, 'DB2' or 'Oracle'
+property :database_type, String, required: true
 
 # <> Whether to install DB2 locally
 property :db2_install, String
@@ -142,6 +148,74 @@ property :db2_cellonlydb_name, String
 # <> The database schema of Business Automation Workflow.
 property :db2_schema, String
 
+# <> Oracle attributes
+# <> The fully qualified domain name of Oracle database.
+property :oracle_hostname, String
+
+# <> The port number of the Oracle database.
+property :oracle_port, String
+
+# <> The name of the Oracle database.
+property :oracle_database_name, String
+
+# <> The Oracle JDBC driver path.
+property :oracle_jdbc_driver_path, String
+
+# <> The Oracle JDBC driver name.
+property :oracle_jdbc_driver, String
+
+# <> The user name of the Oracle common database which will be used to create database user authentication alias.
+property :oracle_cmndb_username, String
+
+# <> The password of the Oracle common database which will be used to create database user authentication alias.
+property :oracle_cmndb_password, String
+
+# <> The user name of the Oracle cellonly database which will be used to create database user authentication alias.
+property :oracle_cellonlydb_username, String
+
+# <> The password of the Oracle cellonly database which will be used to create database user authentication alias.
+property :oracle_cellonlydb_password, String
+
+# <> The user name of the Oracle Process Server database which will be used to create database user authentication alias.
+property :oracle_psdb_username, String
+
+# <> The password of the Oracle Process Server database which will be used to create database user authentication alias.
+property :oracle_psdb_password, String
+
+# <> The user name of the Oracle ICN database which will be used to create database user authentication alias.
+property :oracle_icndb_username, String
+
+# <> The password of the Oracle ICN database which will be used to create database user authentication alias.
+property :oracle_icndb_password, String
+
+# <> The table space name of Oracle ICN database
+property :oracle_icndb_tsicn, String
+
+# <> The user name of the Oracle design object store (DOS) database which will be used to create database user authentication alias.
+property :oracle_dosdb_username, String
+
+# <> The password of the Oracle design object store (DOS) database which will be used to create database user authentication alias.
+property :oracle_dosdb_password, String
+
+# <> The data table space name of Oracle design object store (DOS) database
+property :oracle_dosdb_tsdosdata, String
+
+# <> The user name of the Oracle target object store (TOS) database which will be used to create database user authentication alias.
+property :oracle_tosdb_username, String
+
+# <> The password of the Oracle target object store (TOS) database which will be used to create database user authentication alias.
+property :oracle_tosdb_password, String
+
+# <> The data table space name of Oracle target object store (TOS) database
+property :oracle_tosdb_tstosdata, String
+
+# <> The user name of the Oracle Performance database which will be used to create database user authentication alias.
+property :oracle_pdwdb_username, String
+
+# <> The password of the Oracle Performance database which will be used to create database user authentication alias.
+property :oracle_pdwdb_password, String
+
+# <> PS attributes
 # <> The purpose of this Process Server environment: Development, Test, Staging, or Production, necessary for Process Server deployment environment.
 property :ps_environment_purpose, String
 
@@ -165,6 +239,16 @@ property :ps_pc_alias_user, String
 
 # <> The password of the Process Center authentication alias (which is used by online Process Server environments to connect to Process Center).
 property :ps_pc_alias_password, String
+
+# <> metering enablement (by leveraging WAS usage metering) attributes
+# <> The group name which will shown under 'External Workloads' to express the setup uniquely
+property :metering_identifier_name, String
+
+# <> The apikey which is used to register the metering
+property :metering_apikey, String
+
+# <> The service URL which is used to register the metering
+property :metering_url, String
 
 attr_accessor :database_created
 attr_accessor :de_created

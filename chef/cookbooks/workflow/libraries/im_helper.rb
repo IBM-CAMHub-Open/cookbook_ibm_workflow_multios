@@ -71,6 +71,14 @@ module IM
       cmd_out.stderr.empty? && (cmd_out.stdout =~ /^#{ifix_name}/)
     end
 
+    # Determine if the ifix is already installed
+    def fixpack_installed?(install_dir, fixpack_name, user = 'root')
+      Chef::Log.debug "fixpack_installed? params: install_dir: #{install_dir}, fixpack_name: #{fixpack_name}, user: #{user}"
+      cmd = "#{install_dir}/eclipse/tools/imcl listInstalledPackages | grep #{fixpack_name} || true"
+      cmd_out = run_shell_cmd(cmd, user)
+      cmd_out.stderr.empty? && (cmd_out.stdout =~ /^#{fixpack_name}/)
+    end
+
     # Determine if IM offering (with optional version) is already installed
     def ibm_installed_from_data?(imcl_cmd_dir, data_location, offering_id, offering_version = '', user = 'root')
       Chef::Log.debug "ibm_installed? params: imcl_cmd_dir: #{imcl_cmd_dir}, data_location: #{data_location}, offering_id: #{offering_id}, offering_version: #{offering_version}, user: #{user}"

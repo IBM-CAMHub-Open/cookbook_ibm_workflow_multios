@@ -116,10 +116,16 @@ force_default['workflow']['config']['db2_schema'] = node['workflow']['config']['
 # The database data directory path.
 force_default['workflow']['config']['db2_data_dir'] = '/home/' + node['workflow']['config']['db_alias_user'] + '/' + node['workflow']['config']['db_alias_user'] + '/NODE0000'
 
-# The unified local case network shared directory, the attribute is defined for the limitation that same 
+# The unified local case network shared directory, the attribute is defined for the limitation that same directory should be used among multiple nodes
 default['workflow']['config']['local_case_network_shared_dir'] = '/opt/IBM/Workflow/CaseManagement/properties'
 
-#
+# The local oracle driver directory, used to put oracle jdbc driver
+default['workflow']['config']['oracle']['jdbc_driver_path'] = node['workflow']['install_dir'] + '/jdbcdrivers/Oracle'
+
+# The database_type attribute
+force_override['workflow']['config']['database_type'] = node['workflow']['config']['database_type'].strip.upcase if !node['workflow']['config']['database_type'].nil?
+force_override['workflow']['config']['database_type'] = 'Oracle' if !node['workflow']['config']['database_type'].nil? && 'ORACLE'.eql?(node['workflow']['config']['database_type'].strip.upcase)
+
 # <> Attributes defined for chef-vault
 #
 

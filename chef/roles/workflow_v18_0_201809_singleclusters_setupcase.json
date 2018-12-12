@@ -32,7 +32,6 @@
   },
   "chef_type": "role",
   "run_list": [
-    "recipe[workflow::setup_case]"
   ],
   "env_run_lists": {
 

@@ -171,7 +171,6 @@ Chef::Log.info("repo_nonsecureMode: #{repo_nonsecureMode}")
 
 Chef::Resource::User.send(:include, IM::Helper)
 
-# TODO: enable secure mode for private repository and add SSL support later
 workflow_install 'ibm_workflow' do
   sw_repo  node['ibm']['sw_repo']
   workflow_expand_area  node['ibm']['expand_area']

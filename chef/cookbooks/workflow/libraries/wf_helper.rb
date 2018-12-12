@@ -92,6 +92,28 @@ module WF
       stop_dmgr(runas_user, runas_group, install_dir, wfadmin_user, wfadmin_password)
     end
 
+    def start_env(runas_user, nodeIndex, serverName, runas_group, install_dir)
+      Chef::Log.info "start_env(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}"
+      start_dmgr(runas_user, runas_group, install_dir)
+      start_nodeagent(runas_user, nodeIndex, runas_group, install_dir)
+      start_server(runas_user, nodeIndex, serverName, runas_group, install_dir)
+    end
+
+    def start_server(runas_user, nodeIndex, serverName, runas_group, install_dir)
+      Chef::Log.info "start_server(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}"
+      if server_stopped?(runas_user, nodeIndex, serverName)
+        cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./startServer.sh #{serverName}"
+        cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./startServer.sh SingleClusterMember1" if serverName.nil? || serverName.empty?
+        execute 'start Server' do
+          cwd "#{install_dir}/profiles/Node#{nodeIndex}Profile/bin"
+          command cmd
+          user runas_user
+          group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/Node#{nodeIndex}Profile/bin") }
+        end
+      end
+    end
+
     def stop_server(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
       Chef::Log.info "stop_server(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
       unless server_stopped?(runas_user, nodeIndex, serverName)
@@ -102,6 +124,20 @@ module WF
           command cmd
           user runas_user
           group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/Node#{nodeIndex}Profile/bin") }
+        end
+      end
+    end
+
+    def start_nodeagent(runas_user, nodeIndex, runas_group, install_dir)
+      Chef::Log.info "start_nodeagent(#{runas_user}, #{nodeIndex}, #{runas_group}, #{install_dir}"
+      if nodeagent_stopped?(runas_user, nodeIndex)
+        execute 'start Node Agent' do
+          cwd "#{install_dir}/profiles/Node#{nodeIndex}Profile/bin"
+          command "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./startNode.sh"
+          user runas_user
+          group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/Node#{nodeIndex}Profile/bin") }
         end
       end
     end
@@ -114,6 +150,20 @@ module WF
           command "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopNode.sh -username #{wfadmin_user} -password #{wfadmin_password}"
           user runas_user
           group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/Node#{nodeIndex}Profile/bin") }
+        end
+      end
+    end
+
+    def start_dmgr(runas_user, runas_group, install_dir)
+      Chef::Log.info "start_dmgr(#{runas_user}, #{runas_group}, #{install_dir}"
+      if dmgr_stopped?(runas_user)
+        execute 'start Dmgr' do
+          cwd "#{install_dir}/profiles/DmgrProfile/bin"
+          command "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./startManager.sh"
+          user runas_user
+          group runas_group
+          only_if { Dir.exist?("#{install_dir}/profiles/DmgrProfile") }
         end
       end
     end

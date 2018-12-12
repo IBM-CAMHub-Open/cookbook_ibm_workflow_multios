@@ -26,6 +26,19 @@
             "selectable": "false",
             "type": "string"
         },
+        "fixpack_repo": {
+            "default": "",
+            "description": "The location from which to download fix packs.",
+            "displayname": "Business Automation Workflow fix packs location",
+            "hidden": "false",
+            "immutable_after_create": "true",
+            "parm_type": "node",
+            "precedence_level": "node",
+            "required": "true",
+            "secret": "false",
+            "selectable": "false",
+            "type": "string"
+        },
         "log_dir": {
             "default": "/var/log/ibm_cloud",
             "description": "The log directory for all log files that are generated during installation and configuration.",
@@ -182,6 +195,19 @@
             "default": "",
             "description": "The ifix list in string format. For example \"ifix1.zip, ifix2.zip, ifix3.zip\"",
             "displayname": "Ifix names",
+            "hidden": "false",
+            "immutable_after_create": "false",
+            "parm_type": "node",
+            "precedence_level": "node",
+            "required": "false",
+            "secret": "false",
+            "selectable": "false",
+            "type": "string"
+        },
+        "fixpack_names": {
+            "default": "",
+            "description": "The fix pack list in string format. For example \"cf1.tar.gz, cf2.tar.gz, cf3.tar.gz\"",
+            "displayname": "Fix pack names",
             "hidden": "false",
             "immutable_after_create": "false",
             "parm_type": "node",

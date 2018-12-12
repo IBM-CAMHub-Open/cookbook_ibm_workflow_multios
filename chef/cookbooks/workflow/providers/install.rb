@@ -194,20 +194,20 @@ action :install do
       user = define_user
       group = define_group
 
-      # re-encrypt the passwords using './imutilsc -s encryptString xxx', IM need encrypted passwords
-      cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_password)
-      db2_password = cmd_out.stdout
-
-      db2_fenced_password = ''
-      db2_das_password = ''
-      if new_resource.db2_install == 'true'
-        cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_fenced_password)
-        db2_fenced_password = cmd_out.stdout
-        cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_das_password)
-        db2_das_password = cmd_out.stdout
-      end
-
       if !(new_resource.db2_response_file.nil? || new_resource.db2_response_file.empty?)
+        # re-encrypt the passwords using './imutilsc -s encryptString xxx', IM need encrypted passwords
+        cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_password)
+        db2_password = cmd_out.stdout
+
+        db2_fenced_password = ''
+        db2_das_password = ''
+        if new_resource.db2_install == 'true'
+          cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_fenced_password)
+          db2_fenced_password = cmd_out.stdout
+          cmd_out = shell_out!("#{im_repo}/tools/imutilsc -s encryptString " + new_resource.db2_das_password)
+          db2_das_password = cmd_out.stdout
+        end
+
         db2_log_dir = ibm_log_dir + '/db2'
         db2_im_data_dir = '/var/ibm/InstallationManager_DB2'
         db2_install_dir = '/opt/IBM/DB2wWAS'
@@ -246,7 +246,7 @@ action :install do
           group db2_install_group
           cwd im_repo + '/tools'
           command install_command
-          not_if { ibm_installed_from_data?(im_repo + '/tools', db2_im_data_dir, new_resource.db2_offering_id, new_resource.db2_offering_version, db2_install_user) }
+          not_if { ibm_installed_from_data?(im_repo + '/tools', db2_im_data_dir, new_resource.db2_offering_id, '', db2_install_user) }
         end
       end
 
@@ -288,7 +288,7 @@ action :install do
 
         # TODO: for admin mode, DB2 will be installed.
         # workflow installation success doesn't mean that DB2 installation success.
-        not_if { ibm_installed?(im_install_dir, new_resource.offering_id, new_resource.offering_version, user) }
+        not_if { ibm_installed?(im_install_dir, new_resource.offering_id, '', user) }
       end
 
       workflow_evidence_dir = ibm_log_dir + '/evidence'
@@ -359,11 +359,10 @@ def load_current_resource
   @current_resource.im_version(@new_resource.im_version)
   @current_resource.im_install_dir(im_install_dir)
   @current_resource.offering_id(@new_resource.offering_id)
-  @current_resource.offering_version(@new_resource.offering_version)
 
   # get current state
   @current_resource.im_installed = im_installed?(im_install_dir, @new_resource.im_version, user)
-  @current_resource.installed = ibm_installed?(im_install_dir, @new_resource.offering_id, @new_resource.offering_version, user)
+  @current_resource.installed = ibm_installed?(im_install_dir, @new_resource.offering_id, '', user)
 end
 
 # create directory and assign to specified user:group,

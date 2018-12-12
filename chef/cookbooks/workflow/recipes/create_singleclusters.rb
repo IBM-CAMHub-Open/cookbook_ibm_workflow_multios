@@ -29,16 +29,17 @@ chef_vault = node['workflow']['vault']['name']
 
 celladmin_alias_password = node['workflow']['config']['celladmin_alias_password']
 deadmin_alias_password = node['workflow']['config']['deadmin_alias_password']
-db_alias_password = node['workflow']['config']['db_alias_password']
 ps_pc_alias_password = node['workflow']['config']['ps_pc_alias_password']
+metering_apikey = node['workflow']['config']['metering']['apikey']
 unless chef_vault.empty?
-  #Chef::Log.info("Before decryption: celladmin_alias_password: #{celladmin_alias_password}, deadmin_alias_password: #{deadmin_alias_password}, db_alias_password: #{db_alias_password}, ps_pc_alias_password: #{ps_pc_alias_password}")
   encrypted_id = node['workflow']['vault']['encrypted_id']
   require 'chef-vault'
   celladmin_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['celladmin_alias_password']
   deadmin_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['deadmin_alias_password']
-  db_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['db_alias_password']
   ps_pc_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['ps_pc_alias_password']
+  if !metering_apikey.nil? && !metering_apikey.empty?
+    metering_apikey = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['metering']['apikey']
+  end
 end
 
 # TODO: use following codes to upcase the input nodes attributes.
@@ -81,6 +82,7 @@ tosdb_tstosidx = node['workflow']['config']['cpedb']['tosdb']['tstosidx'].upcase
 
 
 workflow_createde 'ibm_workflow_createde' do
+  sw_repo  node['ibm']['sw_repo']
   install_dir  node['workflow']['install_dir']
   product_type  node['workflow']['config']['product_type']
   deployment_type  node['workflow']['config']['deployment_type']
@@ -98,11 +100,13 @@ workflow_createde 'ibm_workflow_createde' do
   ihs_https_port  node['workflow']['config']['ihs_https_port']
   case_network_shared_dir  node['workflow']['config']['case_network_shared_dir']
   local_case_network_shared_dir  node['workflow']['config']['local_case_network_shared_dir']
+  database_type  node['workflow']['config']['database_type']
+  # db2 settings
   db2_install node['workflow']['config']['db2_install']
   db2_hostname  node['workflow']['config']['db2_hostname']
   db2_port  node['workflow']['config']['db2_port']
   db_alias_user  node['workflow']['config']['db_alias_user']
-  db_alias_password  db_alias_password
+  db_alias_password  node['workflow']['config']['db_alias_password']
   db2_bpmdb_name  db2_bpmdb_name
   db2_pdwdb_name  db2_pdwdb_name
   db2_cmndb_name  db2_cmndb_name
@@ -121,6 +125,30 @@ workflow_createde 'ibm_workflow_createde' do
   db2_shareddb_name  db2_shareddb_name
   db2_cellonlydb_name  db2_cellonlydb_name
   db2_schema  node['workflow']['config']['db2_schema']
+  # oracle settings
+  oracle_jdbc_driver  node['workflow']['config']['oracle']['jdbc_driver']
+  oracle_jdbc_driver_path  node['workflow']['config']['oracle']['jdbc_driver_path']
+  oracle_hostname  node['workflow']['config']['oracle']['hostname']
+  oracle_port  node['workflow']['config']['oracle']['port']
+  oracle_database_name  node['workflow']['config']['oracle']['database_name']
+  oracle_cmndb_username  node['workflow']['config']['oracle']['shareddb']['username']
+  oracle_cmndb_password  node['workflow']['config']['oracle']['shareddb']['password']
+  oracle_cellonlydb_username  node['workflow']['config']['oracle']['cellonlydb']['username']
+  oracle_cellonlydb_password  node['workflow']['config']['oracle']['cellonlydb']['password']
+  oracle_psdb_username  node['workflow']['config']['oracle']['psdb']['username']
+  oracle_psdb_password  node['workflow']['config']['oracle']['psdb']['password']
+  oracle_icndb_username  node['workflow']['config']['oracle']['icndb']['username']
+  oracle_icndb_password  node['workflow']['config']['oracle']['icndb']['password']
+  oracle_icndb_tsicn  node['workflow']['config']['oracle']['icndb']['tsicn']
+  oracle_dosdb_username  node['workflow']['config']['oracle']['dosdb']['username']
+  oracle_dosdb_password  node['workflow']['config']['oracle']['dosdb']['password']
+  oracle_dosdb_tsdosdata  node['workflow']['config']['oracle']['dosdb']['tsdosdata']
+  oracle_tosdb_username  node['workflow']['config']['oracle']['tosdb']['username']
+  oracle_tosdb_password  node['workflow']['config']['oracle']['tosdb']['password']
+  oracle_tosdb_tstosdata  node['workflow']['config']['oracle']['tosdb']['tstosdata']
+  oracle_pdwdb_username  node['workflow']['config']['oracle']['pdwdb']['username']
+  oracle_pdwdb_password  node['workflow']['config']['oracle']['pdwdb']['password']
+  # ps settings
   ps_environment_purpose  node['workflow']['config']['ps_environment_purpose']
   ps_offline  node['workflow']['config']['ps_offline']
   ps_pc_transport_protocol  node['workflow']['config']['ps_pc_transport_protocol']
@@ -129,5 +157,9 @@ workflow_createde 'ibm_workflow_createde' do
   ps_pc_contextroot_prefix  node['workflow']['config']['ps_pc_contextroot_prefix']
   ps_pc_alias_user  node['workflow']['config']['ps_pc_alias_user']
   ps_pc_alias_password  ps_pc_alias_password
-  action [:check_attrs, :prepare, :create, :restore_isc, :config_ihs, :ps_online_setup, :start_dmgr, :create_case_group, :start_nodeagent, :start_server]
+  # metering
+  metering_identifier_name  node['workflow']['config']['metering']['identifier_name']
+  metering_url  node['workflow']['config']['metering']['url']
+  metering_apikey metering_apikey
+  action [:check_attrs, :prepare, :create, :restore_isc, :config_ihs, :ps_online_setup, :start_dmgr, :start_nodeagent, :enable_metering, :start_server]
 end

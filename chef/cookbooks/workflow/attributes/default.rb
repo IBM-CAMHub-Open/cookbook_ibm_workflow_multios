@@ -33,6 +33,8 @@
 default['ibm']['sw_repo'] = ''
 # workflow ifix files download location
 default['ibm']['ifix_repo'] = ''
+# workflow fixpack files download location
+default['ibm']['fixpack_repo'] = ''
 
 # log directory - all log files generated during installation & configuration
 default['ibm']['log_dir'] = '/var/log/ibm_cloud'
@@ -71,6 +73,9 @@ default['workflow']['install_dir'] = '/opt/IBM/Workflow'
 
 # ifix list in string format. For example "ifix1.zip, ifix2.zip, ifix3.zip"
 default['workflow']['ifix_names'] = ''
+
+# fixpack list in string format. For example "cf1.tar.gz, cf2.tar.gz, cf3.tar.gz"
+default['workflow']['fixpack_names'] = ''
 
 default['was']['offering_id'] = ''
 # TODO: modify the profile id to workflow, and change the profile id to a full name of workflow

@@ -37,9 +37,7 @@ unless chef_vault.empty?
   celladmin_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['celladmin_alias_password']
   deadmin_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['deadmin_alias_password']
   ps_pc_alias_password = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['ps_pc_alias_password']
-  if !metering_apikey.nil? && !metering_apikey.empty?
-    metering_apikey = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['metering']['apikey']
-  end
+  metering_apikey = chef_vault_item(chef_vault, encrypted_id)['workflow']['config']['metering']['apikey']
 end
 
 # TODO: consider to remove following logic after changing template to use same parameter

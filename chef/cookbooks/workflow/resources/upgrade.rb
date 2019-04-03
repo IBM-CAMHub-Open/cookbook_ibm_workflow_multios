@@ -25,7 +25,7 @@ default_action :apply
 property :fixpack_repo, String, default: node['ibm']['fixpack_repo']
 
 # <> Fixpack list
-property :fixpack_names, Array
+property :fixpack_names_list, String
 
 # <> Installation directory for the product that is installed using this LWRP
 property :install_dir, String, required: true

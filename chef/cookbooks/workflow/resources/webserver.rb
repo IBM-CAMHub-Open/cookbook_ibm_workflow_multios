@@ -18,7 +18,7 @@
 # Cookbook Name:: workflow
 # Provider:: workflow_webserver
 #
-actions :create, :retrieve_ihs_certificate
+actions :create, :retrieve_ihs_certificate, :propagate
 default_action :create
 
 # <> The workflow install directory

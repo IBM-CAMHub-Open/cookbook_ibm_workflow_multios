@@ -4,7 +4,7 @@ maintainer_email 	''
 license 		'Copyright 2018 IBM Corporation'
 description      	'Installs and configures IBM Business Automation Workflow'
 long_description 	IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version 		'2.0.4'
+version 		'2.0.5'
 
 chef_version 		'>= 12.5' if respond_to?(:chef_version)
 

@@ -204,7 +204,7 @@
             "selectable": "false",
             "type": "string"
         },
-        "fixpack_names": {
+        "fixpack_names_list": {
             "default": "",
             "description": "The fix pack list in string format. For example \"cf1.tar.gz, cf2.tar.gz, cf3.tar.gz\"",
             "displayname": "Fix pack names",

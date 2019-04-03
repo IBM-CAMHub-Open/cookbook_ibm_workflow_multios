@@ -36,14 +36,13 @@ end
 
 # Create Action apply
 action :apply do
-  fixpack_names = new_resource.fixpack_names
-
-  if fixpack_names.nil? || fixpack_names.size == 0
+  fixpack_names_list = new_resource.fixpack_names_list
+  if fixpack_names_list.nil? || fixpack_names_list.empty? || fixpack_names_list.lstrip.empty? 
     Chef::Log.info "upgrade #{@new_resource} no fixpack need be installed - nothing to do."
   else
     converge_by("upgrade #{@new_resource}") do
 
-      #fixpack_names = fixpack_names.split(",")
+      fixpack_names_list = fixpack_names_list.split(",")
       im_install_dir = define_im_install_dir
       im_folder_permission = define_im_folder_permission
       user = define_user
@@ -109,7 +108,7 @@ action :apply do
             repo_paths = new_resource.fixpack_repo
 
             valid_fixpacks = []
-            fixpack_names.each_with_index do |fixpack_name, index|
+            fixpack_names_list.each_with_index do |fixpack_name, index|
               Chef::Log.info("Deal with #{fixpack_name}...")
               # ignore if the fixpack is not valid
               next if fixpack_name.nil? || fixpack_name.strip.empty? || fixpack_name.strip == ".zip"

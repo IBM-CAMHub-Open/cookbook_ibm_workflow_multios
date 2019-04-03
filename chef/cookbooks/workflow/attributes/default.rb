@@ -75,7 +75,8 @@ default['workflow']['install_dir'] = '/opt/IBM/Workflow'
 default['workflow']['ifix_names'] = ''
 
 # fixpack list in string format. For example "cf1.tar.gz, cf2.tar.gz, cf3.tar.gz"
-default['workflow']['fixpack_names'] = ''
+# Change fixpack_names to fixpack_names_list to solve one of cam limitation, duplicated fixpack download issue.
+default['workflow']['fixpack_names_list'] = ''
 
 default['was']['offering_id'] = ''
 # TODO: modify the profile id to workflow, and change the profile id to a full name of workflow

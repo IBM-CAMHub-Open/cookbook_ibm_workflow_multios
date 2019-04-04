@@ -110,3 +110,33 @@ action :retrieve_ihs_certificate do
     action :create
   end
 end
+
+# Should Propagate Web Server every time, for both fresh and upgrade paths
+action :propagate do
+  return unless ::File.exist?("#{new_resource.install_dir}/chef-state/webserver_done")
+  return unless ::File.exist?("#{new_resource.install_dir}/chef-state/retrieve_ihs_certificate_done")
+  # return if ::Dir.exist?("#{new_resource.install_dir}/profiles/DmgrProfile/config/cells/#{new_resource.ihs_cell_name}/nodes/#{new_resource.ihs_node_name}")
+
+  propagate_webserver_jython = '/tmp/propagate_webserver.jy'
+
+  template propagate_webserver_jython do
+    source 'wsadmin/propagate_webserver.jy.erb'
+    variables(
+      NODE_NAME: new_resource.ihs_node_name,
+      CELL_NAME: new_resource.ihs_cell_name,
+      INSTALL_DIR: new_resource.install_dir
+    )
+  end
+
+  ruby_block 'wsadmin: propagate web server' do
+    block do
+      wsadmin_out = WF::Helper.run_jython("#{new_resource.runas_user}", "#{new_resource.install_dir}/profiles/DmgrProfile", "#{new_resource.dmgr_hostname}", '8879', "#{new_resource.deadmin_alias_user}", "#{new_resource.deadmin_alias_password}", propagate_webserver_jython)
+      Chef::Log.info('wsadmin: ' + wsadmin_out)
+    end
+  end
+
+  file propagate_webserver_jython do
+    action :delete
+  end
+
+end

@@ -181,6 +181,11 @@ Attributes
     <td><code></code></td>
   </tr>
   <tr>
+    <td><code>node['workflow']['config']['database_type']</code></td>
+    <td>The database type, DB2 or Oracle.</td>
+    <td><code>DB2</code></td>
+  </tr>
+  <tr>
     <td><code>node['workflow']['config']['db2_install']</code></td>
     <td>A flag to determine whether Db2 is installed as the embedded database system.</td>
     <td><code></code></td>
@@ -274,6 +279,111 @@ Attributes
     <td><code>node['workflow']['config']['cpedb']['tosdb']['tstosidx']</code></td>
     <td>The index table space for the target object store (TOS).</td>
     <td><code>TOSSA_IDX_TS</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['hostname']</code></td>
+    <td>The hostname of the Oracle database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['port']</code></td>
+    <td>The port number of the Oracle database.</td>
+    <td><code>1521</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['database_name']</code></td>
+    <td>The name of the Oracle database.</td>
+    <td><code>orcl</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['jdbc_driver']</code></td>
+    <td>The name of the Oracle JDBC Driver.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['shareddb']['username']</code></td>
+    <td>The user name of the Shared database.</td>
+    <td><code>cmnuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['shareddb']['password']</code></td>
+    <td>The user password of the Shared database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['cellonlydb']['username']</code></td>
+    <td>The user name of the Cell database.</td>
+    <td><code>celluser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['cellonlydb']['password']</code></td>
+    <td>The user password of the Cell database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['psdb']['username']</code></td>
+    <td>The user name of the Process Server database.</td>
+    <td><code>psuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['psdb']['password']</code></td>
+    <td>The user password of the Process Server database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['icndb']['username']</code></td>
+    <td>The user name of the IBM Content Navigator (ICN) database.</td>
+    <td><code>icnuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['icndb']['password']</code></td>
+    <td>The user password of the IBM Content Navigator (ICN) database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['icndb']['tsicn']</code></td>
+    <td>The table space for IBM Content Navigator (ICN).</td>
+    <td><code>WFICNTS</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['dosdb']['username']</code></td>
+    <td>The user name of the Design Object Store (DOS) database.</td>
+    <td><code>dosuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['dosdb']['password']</code></td>
+    <td>The user password of the Design Object Store (DOS) database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['dosdb']['tsdosdata']</code></td>
+    <td>The data table space for the Design Object Store (DOS).</td>
+    <td><code>DOSSA_DATA_TS</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['tosdb']['username']</code></td>
+    <td>The user name of the Target Object Store (TOS) database.</td>
+    <td><code>tosuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['tosdb']['password']</code></td>
+    <td>The user password of the Target Object Store (TOS) database.</td>
+    <td><code></code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['tosdb']['tstosdata']</code></td>
+    <td>The data table space for the Target Object Store (TOS) database.</td>
+    <td><code>TOSSA_DATA_TS</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['pdwdb']['username']</code></td>
+    <td>The user name of the Performance Data Warehouse database.</td>
+    <td><code>pdwuser</code></td>
+  </tr>
+   <tr>
+    <td><code>node['oracle']['config']['pdwdb']['password']</code></td>
+    <td>The user password of the Performance Data Warehouse database.</td>
+    <td><code></code></td>
   </tr>
   <tr>
     <td><code>node['workflow']['config']['ps_environment_purpose']</code></td>

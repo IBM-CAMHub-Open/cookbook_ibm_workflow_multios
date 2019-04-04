@@ -53,5 +53,5 @@ workflow_webserver 'ibm_workflow_webserver' do
   ihs_admin_user node['ihs']['admin_user']
   ihs_admin_password ihs_admin_password
 
-  action [:create, :retrieve_ihs_certificate]
+  action [:create, :retrieve_ihs_certificate, :propagate]
 end

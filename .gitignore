@@ -1,0 +1,19 @@
+# test kitchen
+.kitchen/
+.kitchen.local.yml
+
+# Chef
+Berksfile.lock
+.zero-knife.rb
+Policyfile.lock.json
+
+.chef/*
+
+# CAM pipeline
+Rakefile
+.rubocop.yml
+tasks/
+secrets.json
+
+#MacOS Finder temp
+.DS_Store.gitignore

@@ -86,7 +86,7 @@ module WF
     end
 
     def stop_env(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
-      Chef::Log.info "stop_env(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      Chef::Log.info "stop_env(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}"
       stop_server(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
       stop_nodeagent(runas_user, nodeIndex, runas_group, install_dir, wfadmin_user, wfadmin_password)
       stop_dmgr(runas_user, runas_group, install_dir, wfadmin_user, wfadmin_password)
@@ -115,7 +115,7 @@ module WF
     end
 
     def stop_server(runas_user, nodeIndex, serverName, runas_group, install_dir, wfadmin_user, wfadmin_password)
-      Chef::Log.info "stop_server(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      Chef::Log.info "stop_server(#{runas_user}, #{nodeIndex}, #{serverName}, #{runas_group}, #{install_dir}, #{wfadmin_user}"
       unless server_stopped?(runas_user, nodeIndex, serverName)
         cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopServer.sh #{serverName} -username #{wfadmin_user} -password #{wfadmin_password}"
         cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; ./stopServer.sh SingleClusterMember1 -username #{wfadmin_user} -password #{wfadmin_password}" if serverName.nil? || serverName.empty?
@@ -143,7 +143,7 @@ module WF
     end
 
     def stop_nodeagent(runas_user, nodeIndex, runas_group, install_dir, wfadmin_user, wfadmin_password)
-      Chef::Log.info "stop_nodeagent(#{runas_user}, #{nodeIndex}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      Chef::Log.info "stop_nodeagent(#{runas_user}, #{nodeIndex}, #{runas_group}, #{install_dir}, #{wfadmin_user}"
       unless nodeagent_stopped?(runas_user, nodeIndex)
         execute 'stop Node Agent' do
           cwd "#{install_dir}/profiles/Node#{nodeIndex}Profile/bin"
@@ -169,7 +169,7 @@ module WF
     end
 
     def stop_dmgr(runas_user, runas_group, install_dir, wfadmin_user, wfadmin_password)
-      Chef::Log.info "stop_dmgr(#{runas_user}, #{runas_group}, #{install_dir}, #{wfadmin_user}, #{wfadmin_password}"
+      Chef::Log.info "stop_dmgr(#{runas_user}, #{runas_group}, #{install_dir}, #{wfadmin_user}"
       unless dmgr_stopped?(runas_user)
         execute 'stop Dmgr' do
           cwd "#{install_dir}/profiles/DmgrProfile/bin"

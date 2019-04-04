@@ -524,6 +524,11 @@ action :create do
         not_if { createde_success? }
       end
 
+      # remove the creade properites file for that some passwords are contained in the file.
+      file silent_createde_propfile_abspath do
+        action :delete
+      end
+
       # set soap timeout to 300 seconds for config actions to come
       execute 'Bump SOAP timeout' do
         cwd "#{install_dir}/profiles/DmgrProfile/properties"

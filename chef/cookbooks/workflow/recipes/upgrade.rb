@@ -44,7 +44,7 @@ Chef::Log.info("repo_nonsecureMode: #{repo_nonsecureMode}")
 # TODO: enable secure mode for private repository and add SSL support later
 workflow_upgrade 'ibm_workflow' do
   fixpack_repo  node['ibm']['fixpack_repo']
-  fixpack_names  node['workflow']['fixpack_names']
+  fixpack_names_list  node['workflow']['fixpack_names_list']
   install_dir  node['workflow']['install_dir']
   im_install_mode  node['workflow']['install_mode']
   user  node['workflow']['runas_user']

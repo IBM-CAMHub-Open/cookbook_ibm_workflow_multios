@@ -20,7 +20,7 @@
         }
       },
       "install_dir": "/home/workflowuser01/IBM/Workflow",
-      "fixpack_names": []
+      "fixpack_names_list": ""
     }
   },
   "override_attributes": {

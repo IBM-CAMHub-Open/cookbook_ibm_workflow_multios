@@ -230,15 +230,22 @@ action :apply do
 
       # dbupgrade command, itself doesn't support full idempotence, so, if it fails, no way to support 're-run'
       # but, if it sucesses, then, re-run won't actually happen if still same version, it's idempotence in this way.
-      cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; echo 'y' | ./DBUpgrade.sh -profileName DmgrProfile"
-      Chef::Log.info("DBUpgrade command:  #{cmd}")
-      execute "dbupgrade_#{new_resource.name}" do
-        cwd "#{new_resource.install_dir}/bin"
-        command cmd
-        user user
-        group group
-        only_if { need_install && ::Dir.exist?("#{new_resource.install_dir}/profiles/DmgrProfile") }
+      # issue 113 AdvancedOnly doesn't need dbupgrade according to KC
+      if new_resource.product_type != 'AdvancedOnly'
+          Chef::Log.info("Run dbupgrade: #{new_resource.product_type}")
+          cmd = "export LANG=en_US; export LANGUAGE=en_US; export LC_ALL=en_US; ulimit -n 65536; echo 'y' | ./DBUpgrade.sh -profileName DmgrProfile"
+          Chef::Log.info("DBUpgrade command:  #{cmd}")
+          execute "dbupgrade_#{new_resource.name}" do
+            cwd "#{new_resource.install_dir}/bin"
+            command cmd
+            user user
+            group group
+            only_if { need_install && ::Dir.exist?("#{new_resource.install_dir}/profiles/DmgrProfile")}
+          end
+      else
+          Chef::Log.info("Ignore dbupgrade: #{new_resource.product_type}")
       end
+      
 
       # write the content of temp file to the main file, for that the upgrade for the fixpacks are done.
       ruby_block "write #{installed_fixpacks_filename}" do

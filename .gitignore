@@ -14,6 +14,7 @@ Rakefile
 .rubocop.yml
 tasks/
 secrets.json
+.secrets.baseline
 
 #MacOS Finder temp
 .DS_Store.gitignore

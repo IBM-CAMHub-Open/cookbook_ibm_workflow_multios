@@ -52,6 +52,7 @@ workflow_upgrade 'ibm_workflow' do
   celladmin_alias_user  node['workflow']['config']['celladmin_alias_user']
   celladmin_alias_password  celladmin_alias_password
   node_hostnames  node['workflow']['config']['node_hostnames']
+  product_type  node['workflow']['config']['product_type']
   repo_nonsecureMode  repo_nonsecureMode
   secure_repo  secure_repo # if it's true, need set vault info using ['workflow']['vault']
   action [:apply]

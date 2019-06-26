@@ -42,6 +42,9 @@ property :user, String, required: true
 # <> Runas group used to install IM and that should be used to upgrade the fixpack
 property :group, String, required: true
 
+# <> The type of product configuration: Express, Standard, Advanced, or AdvancedOnly.
+property :product_type, String, required: true
+
 # <> The fully qualified domain names of all node, format like "node01_hostname, node02_hostname, node03_hostname"
 property :node_hostnames, String
 

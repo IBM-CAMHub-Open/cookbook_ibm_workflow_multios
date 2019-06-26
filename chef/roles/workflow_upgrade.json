@@ -8,6 +8,7 @@
     },
     "workflow": {
       "config": {
+        "product_type": "",
         "node_hostnames": "",
         "celladmin_alias_user": "admin",
         "celladmin_alias_password": ""
